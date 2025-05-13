@@ -9,7 +9,7 @@ import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import Modelo.BichinhoVaiVemVertical;
 import Modelo.ZigueZague;
-import auxiliar.Posicao;
+import Auxiliar.Posicao;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;

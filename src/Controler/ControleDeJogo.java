@@ -3,7 +3,7 @@ package Controler;
 import Modelo.Chaser;
 import Modelo.Personagem;
 import Modelo.Hero;
-import auxiliar.Posicao;
+import Auxiliar.Posicao;
 import java.util.ArrayList;
 
 public class ControleDeJogo {
