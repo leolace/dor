@@ -31,13 +31,14 @@ public abstract class Personagem implements Serializable {
         this.bTransponivel = true;
         this.bMortal = false;
         try {
-            iImage = new ImageIcon(new java.io.File(".").getCanonicalPath() + Consts.PATH + sNomeImagePNG);
+            iImage = new ImageIcon(new java.io.File("../").getCanonicalPath() + Consts.PATH + sNomeImagePNG);
             Image img = iImage.getImage();
             BufferedImage bi = new BufferedImage(Consts.CELL_SIDE, Consts.CELL_SIDE, BufferedImage.TYPE_INT_ARGB);
             Graphics g = bi.createGraphics();
             g.drawImage(img, 0, 0, Consts.CELL_SIDE, Consts.CELL_SIDE, null);
             iImage = new ImageIcon(bi);
         } catch (IOException ex) {
+						System.out.println("Erro ao processar imagem.");
             System.out.println(ex.getMessage());
         }
     }

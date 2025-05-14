@@ -42,6 +42,7 @@ public class Hero extends Personagem implements Serializable{
     }
     
     public boolean moveUp() {
+				System.out.println("heroi moveu para cima");
         if(super.moveUp())
             return validaPosicao();
         return false;

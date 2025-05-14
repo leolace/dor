@@ -51,14 +51,14 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         this.addKeyListener(this);
         /*teclado*/
  /*Cria a janela do tamanho do tabuleiro + insets (bordas) da janela*/
-        this.setSize(Consts.RES * Consts.CELL_SIDE + getInsets().left + getInsets().right,
-                Consts.RES * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
+        this.setSize(Consts.RES_X * Consts.CELL_SIDE + getInsets().left + getInsets().right,
+                Consts.RES_Y * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
         faseAtual = new ArrayList<Personagem>();
 
         /*Cria faseAtual adiciona personagens*/
         hero = new Hero("Robbo.png");
-        hero.setPosicao(0, 7);
+        hero.setPosicao(10, 10);
         this.addPersonagem(hero);
         this.atualizaCamera();
 
@@ -119,15 +119,15 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         /**
          * ***********Desenha cenário de fundo*************
          */
-        for (int i = 0; i < Consts.RES; i++) {
-            for (int j = 0; j < Consts.RES; j++) {
+        for (int i = 0; i < Consts.RES_X; i++) {
+            for (int j = 0; j < Consts.RES_Y; j++) {
                 int mapaLinha = cameraLinha + i;
                 int mapaColuna = cameraColuna + j;
 
                 if (mapaLinha < Consts.MUNDO_ALTURA && mapaColuna < Consts.MUNDO_LARGURA) {
                     try {
                         Image newImage = Toolkit.getDefaultToolkit().getImage(
-                                new java.io.File(".").getCanonicalPath() + Consts.PATH + "blackTile.png");
+                                new java.io.File("../").getCanonicalPath() + Consts.PATH + "blackTile.png");
                         g2.drawImage(newImage,
                                 j * Consts.CELL_SIDE, i * Consts.CELL_SIDE,
                                 Consts.CELL_SIDE, Consts.CELL_SIDE, null);
@@ -153,8 +153,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         int linha = hero.getPosicao().getLinha();
         int coluna = hero.getPosicao().getColuna();
 
-        cameraLinha = Math.max(0, Math.min(linha - Consts.RES / 2, Consts.MUNDO_ALTURA - Consts.RES));
-        cameraColuna = Math.max(0, Math.min(coluna - Consts.RES / 2, Consts.MUNDO_LARGURA - Consts.RES));
+        cameraLinha = Math.max(0, Math.min(linha - Consts.RES_X / 2, Consts.MUNDO_ALTURA - Consts.RES_X));
+        cameraColuna = Math.max(0, Math.min(coluna - Consts.RES_Y / 2, Consts.MUNDO_LARGURA - Consts.RES_Y));
     }
 
     public void go() {
@@ -171,6 +171,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         if (e.getKeyCode() == KeyEvent.VK_C) {
             this.faseAtual.clear();
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
+						System.out.println("oi");
             hero.moveUp();
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             hero.moveDown();
@@ -183,7 +184,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         this.setTitle("-> Cell: " + (hero.getPosicao().getColuna()) + ", "
                 + (hero.getPosicao().getLinha()));
 
-        //repaint(); /*invoca o paint imediatamente, sem aguardar o refresh*/
+        repaint(); /*invoca o paint imediatamente, sem aguardar o refresh*/
     }
 
     public void mousePressed(MouseEvent e) {
@@ -205,9 +206,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("POO2023-1 - Skooter");
-        setAlwaysOnTop(true);
+        setAlwaysOnTop(false);
         setAutoRequestFocus(false);
-        setResizable(false);
+        setResizable(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
