@@ -13,7 +13,7 @@ public class Hero extends Personagem {
 
   public boolean setPosicao(int linha, int coluna) {
     if (this.pPosicao.setPosicao(linha, coluna)) {
-      if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this.getPosicao())) {
+      if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this)) {
         this.voltaAUltimaPosicao();
       }
       return true;
@@ -25,7 +25,7 @@ public class Hero extends Personagem {
    * TO-DO: este metodo pode ser interessante a todos os personagens que se movem
    */
   private boolean validaPosicao() {
-    if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this.getPosicao())) {
+    if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this)) {
       this.voltaAUltimaPosicao();
       return false;
     }

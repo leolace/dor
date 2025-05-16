@@ -86,8 +86,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     return cameraColuna;
   }
 
-  public boolean ehPosicaoValida(Posicao p) {
-    return cj.ehPosicaoValida(this.personagens, p);
+  public boolean ehPosicaoValida(Personagem personagem) {
+    return cj.ehPosicaoValida(this.personagens, personagem);
   }
 
   public void addPersonagem(Personagem umPersonagem) {
@@ -141,8 +141,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   }
 
   private void atualizaCamera() {
-    int linha = heroi.getPosicao().getLinha();
-    int coluna = heroi.getPosicao().getColuna();
+    int linha = heroi.getLinha();
+    int coluna = heroi.getColuna();
 
     cameraLinha = Math.max(0, Math.min(linha - Consts.RES_X / 2, Consts.MUNDO_ALTURA - Consts.RES_X));
     cameraColuna = Math.max(0, Math.min(coluna - Consts.RES_Y / 2, Consts.MUNDO_LARGURA - Consts.RES_Y));
@@ -172,8 +172,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
       heroi.moveRight();
     }
     this.atualizaCamera();
-    this.setTitle("-> Cell: " + (heroi.getPosicao().getColuna()) + ", "
-        + (heroi.getPosicao().getLinha()));
+    this.setTitle("-> Cell: " + (heroi.getColuna()) + ", "
+        + (heroi.getLinha()));
 
     this.repaintHeroi();
     // repaint(); /* invoca o paint imediatamente, sem aguardar o refresh */
@@ -187,7 +187,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     this.setTitle("X: " + x + ", Y: " + y
         + " -> Cell: " + (y / Consts.CELL_SIDE) + ", " + (x / Consts.CELL_SIDE));
 
-    this.heroi.getPosicao().setPosicao(y / Consts.CELL_SIDE, x / Consts.CELL_SIDE);
+    this.heroi.setPosicao(y / Consts.CELL_SIDE, x / Consts.CELL_SIDE); // TODO: olhar isso aqui depois
 
     repaint();
   }

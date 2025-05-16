@@ -14,15 +14,15 @@ public class Chaser extends Personagem {
     this.bTransponivel = true;
   }
 
-  public void computeDirection(Posicao heroPos) {
-    if (heroPos.getColuna() < this.getPosicao().getColuna()) {
+  public void computeDirection(Hero hero) {
+    if (hero.getColuna() < this.getColuna()) {
       iDirectionH = true;
-    } else if (heroPos.getColuna() > this.getPosicao().getColuna()) {
+    } else if (hero.getColuna() > this.getColuna()) {
       iDirectionH = false;
     }
-    if (heroPos.getLinha() < this.getPosicao().getLinha()) {
+    if (hero.getLinha() < this.getLinha()) {
       iDirectionV = true;
-    } else if (heroPos.getLinha() > this.getPosicao().getLinha()) {
+    } else if (hero.getLinha() > this.getLinha()) {
       iDirectionV = false;
     }
   }

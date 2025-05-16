@@ -18,7 +18,7 @@ public class ControleDeJogo {
     Personagem pIesimoPersonagem;
     for (int i = 1; i < umaFase.size(); i++) {
       pIesimoPersonagem = umaFase.get(i);
-      if (hero.getPosicao().igual(pIesimoPersonagem.getPosicao())) {
+      if (hero.isSamePosition(pIesimoPersonagem.getLinha(), pIesimoPersonagem.getColuna())) {
         if (pIesimoPersonagem.isbTransponivel()) /* TO-DO: verificar se o personagem eh mortal antes de retirar */ {
           if (pIesimoPersonagem.isbMortal())
             umaFase.remove(pIesimoPersonagem);
@@ -26,7 +26,7 @@ public class ControleDeJogo {
       }
 
       if (pIesimoPersonagem instanceof Chaser) {
-        ((Chaser) pIesimoPersonagem).computeDirection(hero.getPosicao());
+        ((Chaser) pIesimoPersonagem).computeDirection(hero);
       }
     }
 
@@ -36,12 +36,12 @@ public class ControleDeJogo {
    * Retorna true se a posicao p é válida para Hero com relacao a todos os
    * personagens no array
    */
-  public boolean ehPosicaoValida(ArrayList<Personagem> umaFase, Posicao p) {
+  public boolean ehPosicaoValida(ArrayList<Personagem> umaFase, Personagem personagem) {
     Personagem pIesimoPersonagem;
     for (int i = 1; i < umaFase.size(); i++) {
       pIesimoPersonagem = umaFase.get(i);
       if (!pIesimoPersonagem.isbTransponivel()) {
-        if (pIesimoPersonagem.getPosicao().igual(p)) {
+        if (pIesimoPersonagem.isSamePosition(personagem.getLinha(), personagem.getColuna())) {
           return false;
         }
       }
