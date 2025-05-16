@@ -140,10 +140,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
   }
 
-  private void desenhaHeroi() {
-    heroi.autoDesenho();
-  }
-
   private void atualizaCamera() {
     int linha = heroi.getPosicao().getLinha();
     int coluna = heroi.getPosicao().getColuna();
