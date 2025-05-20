@@ -7,17 +7,18 @@ public class ZigueZague extends Personagem {
     super(sNomeImagePNG);
   }
 
+  @Override
   public void moviment() {
     Random rand = new Random();
     int iDirecao = rand.nextInt(4);
 
-    if (iDirecao == 1)
-      this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() + 1);
+    if (iDirecao == 0)
+      this.moveDown();
+    else if (iDirecao == 1)
+      this.moveLeft();
     else if (iDirecao == 2)
-      this.setPosicao(pPosicao.getLinha() + 1, pPosicao.getColuna());
+      this.moveRight();
     else if (iDirecao == 3)
-      this.setPosicao(pPosicao.getLinha(), pPosicao.getColuna() - 1);
-    else if (iDirecao == 4)
-      this.setPosicao(pPosicao.getLinha() - 1, pPosicao.getColuna());
+      this.moveUp();
   }
 }

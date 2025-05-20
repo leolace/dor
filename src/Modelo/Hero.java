@@ -33,7 +33,6 @@ public class Hero extends Personagem {
   }
 
   public boolean moveUp() {
-    System.out.println("heroi moveu para cima");
     if (super.moveUp())
       return validaPosicao();
     return false;
