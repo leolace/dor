@@ -7,9 +7,9 @@ import Modelo.Chaser;
 import Modelo.BichinhoVaiVemHorizontal;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
+import Auxiliar.Imagem;
 import Modelo.BichinhoVaiVemVertical;
 import Modelo.ZigueZague;
-import Auxiliar.Posicao;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -115,15 +115,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         int mapaColuna = cameraColuna + j;
 
         if (mapaLinha < Consts.MUNDO_ALTURA && mapaColuna < Consts.MUNDO_LARGURA) {
-          try {
-            Image newImage = Toolkit.getDefaultToolkit().getImage(
-                new java.io.File("../").getCanonicalPath() + Consts.PATH + "blackTile.png");
-            g2.drawImage(newImage,
-                j * Consts.CELL_SIDE, i * Consts.CELL_SIDE,
-                Consts.CELL_SIDE, Consts.CELL_SIDE, null);
-          } catch (IOException ex) {
-            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
-          }
+          Imagem grassImage = new Imagem("grass.png", g2);
+          grassImage.drawImage(j * Consts.CELL_SIDE, i * Consts.CELL_SIDE,
+              Consts.CELL_SIDE, Consts.CELL_SIDE);
         }
       }
     }
