@@ -3,7 +3,7 @@ package Modelo;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
 
-public class Caveira extends Personagem {
+public class Caveira extends Entity {
   private int iContaIntervalos;
 
   public Caveira(String filename) {

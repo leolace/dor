@@ -1,20 +1,20 @@
 package Auxiliar;
 
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+
+import javax.swing.ImageIcon;
 
 public class Imagem {
   private String filename;
   private Graphics graphics;
-  public Image image;
+  public ImageIcon image;
 
   public Imagem(String filename, Graphics graphics) {
     this.filename = filename;
     this.graphics = graphics;
 
     try {
-      this.image = Toolkit.getDefaultToolkit().getImage(
+      this.image = new ImageIcon(
           new java.io.File("../").getCanonicalPath() + Consts.PATH + this.filename);
     } catch (Exception e) {
       System.out.println("Erro ao carregar imagem: " + filename);
@@ -23,7 +23,7 @@ public class Imagem {
 
   public void drawImage(int x, int y, int width, int height) {
     if (this.image != null) {
-      this.graphics.drawImage(this.image, x, y, width, height, null);
+      this.graphics.drawImage(this.image.getImage(), x, y, width, height, null);
     } else {
       System.out.println("Imagem não carregada: " + this.filename);
     }

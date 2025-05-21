@@ -1,6 +1,6 @@
 package Modelo;
 
-public class HorizontalBouncer extends Personagem {
+public class HorizontalBouncer extends Entity {
   private boolean isMovingRight = true;
   private int movementCounter = 0;
 

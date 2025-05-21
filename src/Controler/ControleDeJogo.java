@@ -1,21 +1,21 @@
 package Controler;
 
 import Modelo.Chaser;
-import Modelo.Personagem;
+import Modelo.Entity;
 import Modelo.Hero;
 import java.util.ArrayList;
 
 public class ControleDeJogo {
-  public void desenhaTudo(ArrayList<Personagem> personagens) {
+  public void desenhaTudo(ArrayList<Entity> personagens) {
     for (int i = 1; i < personagens.size(); i++) {
       personagens.get(i).autoDesenho();
     }
   }
 
-  public void processaTudo(ArrayList<Personagem> personagens) {
+  public void processaTudo(ArrayList<Entity> personagens) {
     Hero hero = (Hero) personagens.get(0);
     for (int i = 1; i < personagens.size(); i++) {
-      Personagem personagem = personagens.get(i);
+      Entity personagem = personagens.get(i);
       if (hero.isSamePosition(personagem.getLinha(), personagem.getColuna())) {
         if (personagem.isbTransponivel() && personagem.isbMortal())
           personagens.remove(personagem);
@@ -33,9 +33,9 @@ public class ControleDeJogo {
    * Retorna true se a posicao p é válida para Hero com relacao a todos os
    * personagens no array
    */
-  public boolean isValidPosition(ArrayList<Personagem> personagens, Personagem personagem) {
+  public boolean isValidPosition(ArrayList<Entity> personagens, Entity personagem) {
     for (int i = 1; i < personagens.size(); i++) {
-      Personagem personagemAtual = personagens.get(i);
+      Entity personagemAtual = personagens.get(i);
       if (personagemAtual.isbTransponivel())
         return true;
 

@@ -2,7 +2,7 @@ package Modelo;
 
 import java.util.Random;
 
-public class ZigueZague extends Personagem {
+public class ZigueZague extends Entity {
   public ZigueZague(String filename) {
     super(filename);
   }

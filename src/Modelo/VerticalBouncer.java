@@ -1,6 +1,6 @@
 package Modelo;
 
-public class VerticalBouncer extends Personagem {
+public class VerticalBouncer extends Entity {
   boolean bUp;
   private int movementCounter = 0;
 

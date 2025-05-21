@@ -2,7 +2,7 @@ package Modelo;
 
 import Auxiliar.Desenho;
 
-public class Fogo extends Personagem {
+public class Fogo extends Entity {
 
   public Fogo(String sNomeImagePNG) {
     super(sNomeImagePNG);

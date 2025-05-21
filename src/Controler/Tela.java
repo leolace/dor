@@ -1,6 +1,6 @@
 package Controler;
 
-import Modelo.Personagem;
+import Modelo.Entity;
 import Modelo.Caveira;
 import Modelo.Hero;
 import Modelo.Chaser;
@@ -21,7 +21,8 @@ import java.util.TimerTask;
 
 public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener {
   private Hero heroi;
-  private ArrayList<Personagem> personagens = new ArrayList<Personagem>();
+  private ArrayList<Entity> personagens = new ArrayList<Entity>();
+  private ArrayList<Fase> fases = new ArrayList<Fase>();
   private ControleDeJogo cj = new ControleDeJogo();
   private Graphics g2;
   private int cameraLinha = 0;
@@ -81,15 +82,15 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     return cameraColuna;
   }
 
-  public boolean ehPosicaoValida(Personagem personagem) {
+  public boolean ehPosicaoValida(Entity personagem) {
     return cj.isValidPosition(this.personagens, personagem);
   }
 
-  public void addPersonagem(Personagem umPersonagem) {
+  public void addPersonagem(Entity umPersonagem) {
     personagens.add(umPersonagem);
   }
 
-  public void removePersonagem(Personagem umPersonagem) {
+  public void removePersonagem(Entity umPersonagem) {
     personagens.remove(umPersonagem);
   }
 
@@ -176,7 +177,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     this.setTitle("X: " + x + ", Y: " + y
         + " -> Cell: " + (y / Consts.CELL_SIDE) + ", " + (x / Consts.CELL_SIDE));
 
-    this.heroi.setPosicao(y / Consts.CELL_SIDE, x / Consts.CELL_SIDE); // TODO: olhar isso aqui depois
+    this.heroi.setPosicao(y / Consts.CELL_SIDE, x / Consts.CELL_SIDE);
 
     repaint();
   }

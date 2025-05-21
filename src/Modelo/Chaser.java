@@ -2,7 +2,7 @@ package Modelo;
 
 import Auxiliar.Posicao;
 
-public class Chaser extends Personagem {
+public class Chaser extends Entity {
   private boolean iDirectionV;
   private boolean iDirectionH;
 

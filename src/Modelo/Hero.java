@@ -2,7 +2,7 @@ package Modelo;
 
 import Auxiliar.Desenho;
 
-public class Hero extends Personagem {
+public class Hero extends Entity {
   public Hero(String filename) {
     super(filename);
   }
