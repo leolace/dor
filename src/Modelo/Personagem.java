@@ -17,13 +17,17 @@ public abstract class Personagem implements Serializable {
   protected boolean bTransponivel; /* Pode passar por cima? */
   protected boolean bMortal; /* Se encostar, morre? */
   private int contadorMovimento = 0;
-  private static final int DELAY_MOVIMENTO = 5;
+  private int movementDelay = 5;
 
   public boolean isbMortal() {
     return bMortal;
   }
 
-  protected abstract void moviment();
+  protected abstract void movement();
+
+  public void setMovementDelay(int movementDelay) {
+    this.movementDelay = movementDelay;
+  }
 
   protected Personagem(String sNomeImagePNG) {
     this.pPosicao = new Posicao(1, 1);
@@ -62,14 +66,14 @@ public abstract class Personagem implements Serializable {
     Desenho.desenhar(this.iImage, this.pPosicao.getColuna(), this.pPosicao.getLinha());
 
     contadorMovimento++;
-    if (contadorMovimento >= DELAY_MOVIMENTO) {
+    if (contadorMovimento >= movementDelay) {
       contadorMovimento = 0;
-      moviment();
+      movement();
     }
   }
 
   public boolean setPosicao(int linha, int coluna) {
-    return pPosicao.setPosicao(linha / 3, coluna / 3);
+    return pPosicao.setPosicao(linha, coluna);
   }
 
   public boolean isSamePosition(int linha, int coluna) {

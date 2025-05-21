@@ -6,15 +6,15 @@ import Auxiliar.Desenho;
 public class Caveira extends Personagem {
   private int iContaIntervalos;
 
-  public Caveira(String sNomeImagePNG) {
-    super(sNomeImagePNG);
+  public Caveira(String filename) {
+    super(filename);
     this.bTransponivel = false;
     bMortal = false;
     this.iContaIntervalos = 0;
   }
 
   @Override
-  protected void moviment() {
+  protected void movement() {
     this.iContaIntervalos++;
     if (this.iContaIntervalos == Consts.TIMER) {
       this.iContaIntervalos = 0;

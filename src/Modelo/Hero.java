@@ -3,8 +3,8 @@ package Modelo;
 import Auxiliar.Desenho;
 
 public class Hero extends Personagem {
-  public Hero(String sNomeImagePNG) {
-    super(sNomeImagePNG);
+  public Hero(String filename) {
+    super(filename);
   }
 
   public void voltaAUltimaPosicao() {
@@ -57,7 +57,7 @@ public class Hero extends Personagem {
   }
 
   @Override
-  protected void moviment() {
+  protected void movement() {
   }
 
 }

@@ -6,8 +6,8 @@ public class Chaser extends Personagem {
   private boolean iDirectionV;
   private boolean iDirectionH;
 
-  public Chaser(String sNomeImagePNG) {
-    super(sNomeImagePNG);
+  public Chaser(String filename) {
+    super(filename);
     iDirectionV = true;
     iDirectionH = true;
 
@@ -28,7 +28,7 @@ public class Chaser extends Personagem {
   }
 
   @Override
-  protected void moviment() {
+  protected void movement() {
     if (iDirectionH) {
       this.moveLeft();
     } else {

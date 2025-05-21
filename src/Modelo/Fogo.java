@@ -7,10 +7,11 @@ public class Fogo extends Personagem {
   public Fogo(String sNomeImagePNG) {
     super(sNomeImagePNG);
     this.bMortal = true;
+    this.setMovementDelay(3);
   }
 
   @Override
-  protected void moviment() {
+  protected void movement() {
     if (!this.moveRight())
       Desenho.acessoATelaDoJogo().removePersonagem(this);
   }

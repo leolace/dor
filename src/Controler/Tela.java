@@ -4,25 +4,20 @@ import Modelo.Personagem;
 import Modelo.Caveira;
 import Modelo.Hero;
 import Modelo.Chaser;
-import Modelo.BichinhoVaiVemHorizontal;
+import Modelo.HorizontalBouncer;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import Auxiliar.Imagem;
-import Modelo.BichinhoVaiVemVertical;
+import Modelo.VerticalBouncer;
 import Modelo.ZigueZague;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener {
   private Hero heroi;
@@ -47,26 +42,26 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         Consts.RES_Y * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
     /* Cria faseAtual adiciona personagens */
-    heroi = new Hero("robbo.png");
+    heroi = new Hero("hero.png");
     heroi.setPosicao(10, 10);
     this.addPersonagem(heroi);
     this.atualizaCamera();
 
-    ZigueZague zz = new ZigueZague("robo.png");
-    zz.setPosicao(0, 0);
-    this.addPersonagem(zz);
+    ZigueZague zigueZague = new ZigueZague("robo.png");
+    zigueZague.setPosicao(0, 0);
+    this.addPersonagem(zigueZague);
 
-    BichinhoVaiVemHorizontal bBichinhoH = new BichinhoVaiVemHorizontal("roboPink.png");
-    bBichinhoH.setPosicao(3, 3);
-    this.addPersonagem(bBichinhoH);
+    HorizontalBouncer hBouncer = new HorizontalBouncer("roboPink.png");
+    hBouncer.setPosicao(3, 3);
+    this.addPersonagem(hBouncer);
 
-    BichinhoVaiVemHorizontal bBichinhoH2 = new BichinhoVaiVemHorizontal("roboPink.png");
-    bBichinhoH2.setPosicao(6, 6);
-    this.addPersonagem(bBichinhoH2);
+    HorizontalBouncer hBouncer2 = new HorizontalBouncer("roboPink.png");
+    hBouncer2.setPosicao(10, 6);
+    this.addPersonagem(hBouncer2);
 
-    BichinhoVaiVemVertical bVv = new BichinhoVaiVemVertical("caveira.png");
-    bVv.setPosicao(10, 10);
-    this.addPersonagem(bVv);
+    VerticalBouncer vBouncer = new VerticalBouncer("caveira.png");
+    vBouncer.setPosicao(10, 10);
+    this.addPersonagem(vBouncer);
 
     Caveira bV = new Caveira("caveira.png");
     bV.setPosicao(9, 1);
@@ -87,7 +82,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   }
 
   public boolean ehPosicaoValida(Personagem personagem) {
-    return cj.ehPosicaoValida(this.personagens, personagem);
+    return cj.isValidPosition(this.personagens, personagem);
   }
 
   public void addPersonagem(Personagem umPersonagem) {

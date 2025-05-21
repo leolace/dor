@@ -3,12 +3,12 @@ package Modelo;
 import java.util.Random;
 
 public class ZigueZague extends Personagem {
-  public ZigueZague(String sNomeImagePNG) {
-    super(sNomeImagePNG);
+  public ZigueZague(String filename) {
+    super(filename);
   }
 
   @Override
-  public void moviment() {
+  public void movement() {
     Random rand = new Random();
     int iDirecao = rand.nextInt(4);
 
