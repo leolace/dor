@@ -15,7 +15,6 @@ public class Fase extends ControleDeJogo {
 
   public Fase(Hero hero) {
     super(hero);
-    hero.setPosicao(10, 10);
     this.hero = hero;
     this.addPersonagem(hero);
 

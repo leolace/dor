@@ -31,8 +31,8 @@ public class ControleDeJogo {
     this.cameraPosition = new Posicao(cameraLinha, cameraColuna);
   }
 
-  public void updateCameraToHero(Hero heroo) {
-    this.updateCamera(new Posicao(heroo.getLinha(), heroo.getColuna()));
+  public void updateCameraToHero() {
+    this.updateCamera(new Posicao(this.hero.getLinha(), this.hero.getColuna()));
   }
 
   public void desenhaTudo(ArrayList<Entity> personagens) {

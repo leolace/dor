@@ -40,7 +40,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     this.assembleLevel2();
 
     /* Ajusta a camera para a posição do personagem */
-    this.getCurrentLevel().updateCameraToHero(this.hero);
+    this.getCurrentLevel().updateCameraToHero();
 
     /* Inicia a primeira fase */
     Desenho.setLevel(this.getCurrentLevel());
@@ -85,11 +85,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     System.out.println(this.getCurrentLevel().getCameraPosition().getLinha() + ", "
         + this.getCurrentLevel().getCameraPosition().getColuna());
     Graphics g = this.getBufferStrategy().getDrawGraphics();
-    /* Criamos um contexto gráfico */
     g2 = g.create(getInsets().left, getInsets().top, getWidth() - getInsets().right, getHeight() - getInsets().top);
-    /**
-     * ***********Desenha cenário de fundo*************
-     */
+
     for (int i = 0; i < Consts.RES_X; i++) {
       for (int j = 0; j < Consts.RES_Y; j++) {
         int mapaLinha = this.getCurrentLevel().getCameraPosition().getLinha() + i;
@@ -107,8 +104,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
       this.getCurrentLevel().processaTudo(this.getCurrentLevel().getPersonagens());
       hero.autoDesenho();
     }
-
-    this.getCurrentLevel().updateCameraToHero(this.hero);
 
     g.dispose();
     g2.dispose();
@@ -137,16 +132,17 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
       hero.moveRight();
     }
-    this.getCurrentLevel().updateCameraToHero(this.hero);
+    this.getCurrentLevel().updateCameraToHero();
     this.setTitle("-> Cell: " + (hero.getColuna()) + ", "
         + (hero.getLinha()));
 
     hero.autoDesenho();
-    // repaint(); /* invoca o paint imediatamente, sem aguardar o refresh */
   }
 
   public void mousePressed(MouseEvent e) {
-    /* Clique do mouse desligado */
+  }
+
+  public void handleClick(MouseEvent e) {
     int x = e.getX();
     int y = e.getY();
 
@@ -183,7 +179,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
       return;
     }
     this.currentLevelIndex++;
-    this.getCurrentLevel().updateCameraToHero(this.hero);
+    Desenho.setLevel(this.getCurrentLevel());
+    this.getCurrentLevel().updateCameraToHero();
+    repaint();
   }
 
   public void mouseMoved(MouseEvent e) {
@@ -192,6 +190,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   public void mouseClicked(MouseEvent e) {
     if (e.getButton() == MouseEvent.BUTTON3)
       this.nextLevel();
+    else
+      handleClick(e);
   }
 
   public void mouseReleased(MouseEvent e) {
