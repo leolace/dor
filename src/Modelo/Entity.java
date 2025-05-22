@@ -26,8 +26,8 @@ public abstract class Entity implements Serializable {
     this.movementDelay = movementDelay;
   }
 
-  protected Entity(String filename) {
-    this.pPosicao = new Posicao(1, 1);
+  protected Entity(String filename, Posicao posicao) {
+    this.pPosicao = posicao;
     this.bTransponivel = true;
     this.bMortal = false;
 

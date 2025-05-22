@@ -5,7 +5,36 @@ import Modelo.Entity;
 import Modelo.Hero;
 import java.util.ArrayList;
 
+import Auxiliar.Consts;
+import Auxiliar.Posicao;
+
 public class ControleDeJogo {
+  private Posicao cameraPosition;
+  private Hero hero;
+
+  public ControleDeJogo(Hero hero) {
+    cameraPosition = new Posicao(hero.getLinha(), hero.getColuna());
+    this.hero = hero;
+  }
+
+  public Posicao getCameraPosition() {
+    return this.cameraPosition;
+  }
+
+  public void updateCamera(Posicao posicao) {
+    int linha = posicao.getLinha();
+    int coluna = posicao.getColuna();
+
+    int cameraLinha = Math.max(0, Math.min(linha - Consts.RES_X / 2, Consts.MUNDO_ALTURA - Consts.RES_X));
+    int cameraColuna = Math.max(0, Math.min(coluna - Consts.RES_Y / 2, Consts.MUNDO_LARGURA - Consts.RES_Y));
+
+    this.cameraPosition = new Posicao(cameraLinha, cameraColuna);
+  }
+
+  public void updateCameraToHero(Hero heroo) {
+    this.updateCamera(new Posicao(heroo.getLinha(), heroo.getColuna()));
+  }
+
   public void desenhaTudo(ArrayList<Entity> personagens) {
     for (int i = 1; i < personagens.size(); i++) {
       personagens.get(i).autoDesenho();

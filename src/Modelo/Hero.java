@@ -1,10 +1,11 @@
 package Modelo;
 
 import Auxiliar.Desenho;
+import Auxiliar.Posicao;
 
 public class Hero extends Entity {
-  public Hero(String filename) {
-    super(filename);
+  public Hero(String filename, Posicao posicao) {
+    super(filename, posicao);
   }
 
   public void voltaAUltimaPosicao() {
@@ -12,20 +13,22 @@ public class Hero extends Entity {
   }
 
   public boolean setPosicao(int linha, int coluna) {
-    if (this.pPosicao.setPosicao(linha, coluna)) {
-      if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this)) {
-        this.voltaAUltimaPosicao();
-      }
-      return true;
-    }
-    return false;
+    this.pPosicao.setPosicao(linha, coluna);
+    return true;
+    // if (this.pPosicao.setPosicao(linha, coluna)) {
+    // if (!Desenho.getLevel().isLevelValidPosition(this)) {
+    // this.voltaAUltimaPosicao();
+    // }
+    // return true;
+    // }
+    // return false;
   }
 
   /*
    * TO-DO: este metodo pode ser interessante a todos os personagens que se movem
    */
   private boolean validaPosicao() {
-    if (!Desenho.acessoATelaDoJogo().ehPosicaoValida(this)) {
+    if (!Desenho.getLevel().isLevelValidPosition(this)) {
       this.voltaAUltimaPosicao();
       return false;
     }

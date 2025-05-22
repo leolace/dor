@@ -2,9 +2,11 @@ package Modelo;
 
 import java.util.Random;
 
+import Auxiliar.Posicao;
+
 public class ZigueZague extends Entity {
-  public ZigueZague(String filename) {
-    super(filename);
+  public ZigueZague(String filename, Posicao posicao) {
+    super(filename, posicao);
   }
 
   @Override

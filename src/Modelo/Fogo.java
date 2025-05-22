@@ -1,11 +1,12 @@
 package Modelo;
 
 import Auxiliar.Desenho;
+import Auxiliar.Posicao;
 
 public class Fogo extends Entity {
 
-  public Fogo(String sNomeImagePNG) {
-    super(sNomeImagePNG);
+  public Fogo(String filename, Posicao posicao) {
+    super(filename, posicao);
     this.bMortal = true;
     this.setMovementDelay(3);
   }
@@ -13,7 +14,7 @@ public class Fogo extends Entity {
   @Override
   protected void movement() {
     if (!this.moveRight())
-      Desenho.acessoATelaDoJogo().removePersonagem(this);
+      Desenho.getLevel().removePersonagem(this);
   }
 
 }

@@ -1,11 +1,13 @@
 package Modelo;
 
+import Auxiliar.Posicao;
+
 public class VerticalBouncer extends Entity {
   boolean bUp;
   private int movementCounter = 0;
 
-  public VerticalBouncer(String filename) {
-    super(filename);
+  public VerticalBouncer(String filename, Posicao posicao) {
+    super(filename, posicao);
     bUp = true;
   }
 

@@ -5,13 +5,32 @@ import java.util.Random;
 
 import Auxiliar.Posicao;
 import Modelo.Entity;
+import Modelo.Hero;
+import Modelo.Key;
 
-public class Fase {
-  ArrayList<Entity> personagens = new ArrayList<Entity>();
+public class Fase extends ControleDeJogo {
+  private ArrayList<Entity> personagens = new ArrayList<Entity>();
   private Posicao keyPosition;
+  private Hero hero;
 
-  public Fase() {
-    this.genKeyPosition();
+  public Fase(Hero hero) {
+    super(hero);
+    hero.setPosicao(10, 10);
+    this.hero = hero;
+    this.addPersonagem(hero);
+
+    this.keyPosition = this.genKeyPosition();
+    Key key = createKeyEntity();
+    this.addPersonagem(key);
+  }
+
+  public Key createKeyEntity() {
+    Key key = new Key("key.png", new Posicao(this.keyPosition.getLinha(), this.keyPosition.getColuna()));
+    return key;
+  }
+
+  public ArrayList<Entity> getPersonagens() {
+    return this.personagens;
   }
 
   public void addPersonagem(Entity personagem) {
@@ -22,10 +41,15 @@ public class Fase {
     personagens.remove(personagem);
   }
 
-  private void genKeyPosition() {
+  private Posicao genKeyPosition() {
     Random rand = new Random();
     int linha = rand.nextInt(Auxiliar.Consts.RES_X);
     int coluna = rand.nextInt(Auxiliar.Consts.RES_Y);
-    this.keyPosition = new Posicao(linha, coluna);
+    return new Posicao(linha, coluna);
   }
+
+  public boolean isLevelValidPosition(Entity entity) {
+    return this.isValidPosition(personagens, entity);
+  }
+
 }

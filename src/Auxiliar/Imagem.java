@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 public class Imagem {
   private String filename;
   private Graphics graphics;
-  public ImageIcon image;
+  private ImageIcon image;
 
   public Imagem(String filename, Graphics graphics) {
     this.filename = filename;

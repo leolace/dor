@@ -1,6 +1,5 @@
 package Controler;
 
-import Modelo.Entity;
 import Modelo.Caveira;
 import Modelo.Hero;
 import Modelo.Chaser;
@@ -8,6 +7,7 @@ import Modelo.HorizontalBouncer;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import Auxiliar.Imagem;
+import Auxiliar.Posicao;
 import Modelo.VerticalBouncer;
 import Modelo.ZigueZague;
 import java.awt.Graphics;
@@ -20,85 +20,70 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener {
-  private Hero heroi;
-  private ArrayList<Entity> personagens = new ArrayList<Entity>();
-  private ArrayList<Fase> fases = new ArrayList<Fase>();
-  private ControleDeJogo cj = new ControleDeJogo();
+  private Hero hero = new Hero("hero.png", new Posicao(10, 10));
+  private ArrayList<Fase> levels = new ArrayList<Fase>();
+  private int currentLevelIndex = 0;
   private Graphics g2;
-  private int cameraLinha = 0;
-  private int cameraColuna = 0;
 
   public Tela() {
-    Desenho.setCenario(this);
     initUiComponents();
-
-    /* mouse */
+    Desenho.setTela(this);
     this.addMouseListener(this);
-
-    /* teclado */
     this.addKeyListener(this);
 
     /* Cria a janela do tamanho do tabuleiro + insets (bordas) da janela */
     this.setSize(Consts.RES_X * Consts.CELL_SIDE + getInsets().left + getInsets().right,
         Consts.RES_Y * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
-    /* Cria faseAtual adiciona personagens */
-    heroi = new Hero("hero.png");
-    heroi.setPosicao(10, 10);
-    this.addPersonagem(heroi);
-    this.atualizaCamera();
+    /* Monta as fases */
+    this.assembleLevel1();
+    this.assembleLevel2();
 
-    ZigueZague zigueZague = new ZigueZague("robo.png");
-    zigueZague.setPosicao(0, 0);
-    this.addPersonagem(zigueZague);
+    /* Ajusta a camera para a posição do personagem */
+    this.getCurrentLevel().updateCameraToHero(this.hero);
 
-    HorizontalBouncer hBouncer = new HorizontalBouncer("roboPink.png");
-    hBouncer.setPosicao(3, 3);
-    this.addPersonagem(hBouncer);
-
-    HorizontalBouncer hBouncer2 = new HorizontalBouncer("roboPink.png");
-    hBouncer2.setPosicao(10, 6);
-    this.addPersonagem(hBouncer2);
-
-    VerticalBouncer vBouncer = new VerticalBouncer("caveira.png");
-    vBouncer.setPosicao(10, 10);
-    this.addPersonagem(vBouncer);
-
-    Caveira bV = new Caveira("caveira.png");
-    bV.setPosicao(9, 1);
-    this.addPersonagem(bV);
-
-    Chaser chase = new Chaser("chaser.png");
-    chase.setPosicao(12, 12);
-    this.addPersonagem(chase);
-
+    /* Inicia a primeira fase */
+    Desenho.setLevel(this.getCurrentLevel());
   }
 
-  public int getCameraLinha() {
-    return cameraLinha;
+  private void assembleLevel1() {
+    Fase fase = new Fase(this.hero);
+
+    ZigueZague zigueZague = new ZigueZague("robo.png", new Posicao(5, 11));
+    fase.addPersonagem(zigueZague);
+
+    VerticalBouncer vBouncer = new VerticalBouncer("caveira.png", new Posicao(10, 10));
+    fase.addPersonagem(vBouncer);
+
+    Caveira bV = new Caveira("caveira.png", new Posicao(9, 1));
+    fase.addPersonagem(bV);
+
+    Chaser chase = new Chaser("chaser.png", new Posicao(12, 12));
+    fase.addPersonagem(chase);
+
+    this.levels.add(fase);
   }
 
-  public int getCameraColuna() {
-    return cameraColuna;
-  }
+  private void assembleLevel2() {
+    Fase fase = new Fase(this.hero);
 
-  public boolean ehPosicaoValida(Entity personagem) {
-    return cj.isValidPosition(this.personagens, personagem);
-  }
+    HorizontalBouncer hBouncer = new HorizontalBouncer("roboPink.png", new Posicao(3, 3));
+    fase.addPersonagem(hBouncer);
 
-  public void addPersonagem(Entity umPersonagem) {
-    personagens.add(umPersonagem);
-  }
-
-  public void removePersonagem(Entity umPersonagem) {
-    personagens.remove(umPersonagem);
+    this.levels.add(fase);
   }
 
   public Graphics getGraphicsBuffer() {
     return g2;
   }
 
+  public Fase getCurrentLevel() {
+    return this.levels.get(this.currentLevelIndex);
+  }
+
   public void paint(Graphics gOld) {
+    System.out.println(this.getCurrentLevel().getCameraPosition().getLinha() + ", "
+        + this.getCurrentLevel().getCameraPosition().getColuna());
     Graphics g = this.getBufferStrategy().getDrawGraphics();
     /* Criamos um contexto gráfico */
     g2 = g.create(getInsets().left, getInsets().top, getWidth() - getInsets().right, getHeight() - getInsets().top);
@@ -107,8 +92,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
      */
     for (int i = 0; i < Consts.RES_X; i++) {
       for (int j = 0; j < Consts.RES_Y; j++) {
-        int mapaLinha = cameraLinha + i;
-        int mapaColuna = cameraColuna + j;
+        int mapaLinha = this.getCurrentLevel().getCameraPosition().getLinha() + i;
+        int mapaColuna = this.getCurrentLevel().getCameraPosition().getColuna() + j;
 
         if (mapaLinha < Consts.MUNDO_ALTURA && mapaColuna < Consts.MUNDO_LARGURA) {
           Imagem grassImage = new Imagem("grass.png", g2);
@@ -117,11 +102,13 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         }
       }
     }
-    if (!this.personagens.isEmpty()) {
-      this.cj.desenhaTudo(personagens);
-      this.cj.processaTudo(personagens);
-      this.repaintHeroi();
+    if (!this.getCurrentLevel().getPersonagens().isEmpty()) {
+      this.getCurrentLevel().desenhaTudo(this.getCurrentLevel().getPersonagens());
+      this.getCurrentLevel().processaTudo(this.getCurrentLevel().getPersonagens());
+      hero.autoDesenho();
     }
+
+    this.getCurrentLevel().updateCameraToHero(this.hero);
 
     g.dispose();
     g2.dispose();
@@ -130,19 +117,10 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
   }
 
-  private void atualizaCamera() {
-    int linha = heroi.getLinha();
-    int coluna = heroi.getColuna();
-
-    cameraLinha = Math.max(0, Math.min(linha - Consts.RES_X / 2, Consts.MUNDO_ALTURA - Consts.RES_X));
-    cameraColuna = Math.max(0, Math.min(coluna - Consts.RES_Y / 2, Consts.MUNDO_LARGURA - Consts.RES_Y));
-  }
-
   public void go() {
     TimerTask task = new TimerTask() {
       public void run() {
         repaint();
-        // repaintHeroi();
       }
     };
     Timer timer = new Timer();
@@ -150,22 +128,20 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   }
 
   public void keyPressed(KeyEvent e) {
-    if (e.getKeyCode() == KeyEvent.VK_C) {
-      this.personagens.clear();
-    } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-      heroi.moveUp();
+    if (e.getKeyCode() == KeyEvent.VK_UP) {
+      hero.moveUp();
     } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-      heroi.moveDown();
+      hero.moveDown();
     } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-      heroi.moveLeft();
+      hero.moveLeft();
     } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-      heroi.moveRight();
+      hero.moveRight();
     }
-    this.atualizaCamera();
-    this.setTitle("-> Cell: " + (heroi.getColuna()) + ", "
-        + (heroi.getLinha()));
+    this.getCurrentLevel().updateCameraToHero(this.hero);
+    this.setTitle("-> Cell: " + (hero.getColuna()) + ", "
+        + (hero.getLinha()));
 
-    this.repaintHeroi();
+    hero.autoDesenho();
     // repaint(); /* invoca o paint imediatamente, sem aguardar o refresh */
   }
 
@@ -177,18 +153,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     this.setTitle("X: " + x + ", Y: " + y
         + " -> Cell: " + (y / Consts.CELL_SIDE) + ", " + (x / Consts.CELL_SIDE));
 
-    this.heroi.setPosicao(y / Consts.CELL_SIDE, x / Consts.CELL_SIDE);
+    this.hero.setPosicao(y / Consts.CELL_SIDE, x / Consts.CELL_SIDE);
 
     repaint();
-  }
-
-  /**
-   * Redesenha apenas o heroi na tela, sem atualizar os outros personagens.
-   */
-  public void repaintHeroi() {
-    // Desenha o heroi
-    heroi.autoDesenho();
-
   }
 
   private void initUiComponents() {
@@ -210,10 +177,21 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     pack();
   }
 
+  public void nextLevel() {
+    if (this.currentLevelIndex >= this.levels.size() - 1) {
+      System.out.println("Fim do jogo");
+      return;
+    }
+    this.currentLevelIndex++;
+    this.getCurrentLevel().updateCameraToHero(this.hero);
+  }
+
   public void mouseMoved(MouseEvent e) {
   }
 
   public void mouseClicked(MouseEvent e) {
+    if (e.getButton() == MouseEvent.BUTTON3)
+      this.nextLevel();
   }
 
   public void mouseReleased(MouseEvent e) {

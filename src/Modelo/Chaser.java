@@ -6,8 +6,8 @@ public class Chaser extends Entity {
   private boolean iDirectionV;
   private boolean iDirectionH;
 
-  public Chaser(String filename) {
-    super(filename);
+  public Chaser(String filename, Posicao posicao) {
+    super(filename, posicao);
     iDirectionV = true;
     iDirectionH = true;
 
