@@ -16,7 +16,6 @@ public class Level {
 
   public Level(Hero hero, GameControl gameControl) {
     this.gameControl = gameControl;
-    this.addPersonagem(hero);
 
     /* Gera a chave */
     this.keyPosition = this.genKeyPosition();

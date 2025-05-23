@@ -76,14 +76,13 @@ public class GameControl {
   }
 
   public void desenhaTudo(ArrayList<Entity> personagens) {
-    for (int i = 1; i < personagens.size(); i++) {
+    for (int i = 0; i < personagens.size(); i++) {
       personagens.get(i).autoDesenho();
     }
   }
 
   public void processaTudo(ArrayList<Entity> personagens) {
-    Hero hero = (Hero) personagens.get(0);
-    for (int i = 1; i < personagens.size(); i++) {
+    for (int i = 0; i < personagens.size(); i++) {
       Entity personagem = personagens.get(i);
       if (hero.isSamePosition(personagem.getLinha(), personagem.getColuna())) {
         if (personagem.isTransposable() && personagem.isMortal())
@@ -103,15 +102,10 @@ public class GameControl {
    * personagens no array
    */
   public boolean isValidPosition(ArrayList<Entity> personagens, Entity personagem) {
-    for (int i = 1; i < personagens.size(); i++) {
+    for (int i = 0; i < personagens.size(); i++) {
       Entity personagemAtual = personagens.get(i);
-      if (personagemAtual.isTransposable())
-        return true;
-
-      if (personagemAtual.isSamePosition(personagem.getLinha(), personagem.getColuna())) {
-        return false;
-      }
-
+      if (personagemAtual.isSamePosition(personagem.getLinha(), personagem.getColuna()))
+        return personagemAtual.isTransposable();
     }
     return true;
   }
