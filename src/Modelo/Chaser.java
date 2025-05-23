@@ -3,13 +3,13 @@ package Modelo;
 public class Chaser extends Entity {
   private boolean iDirectionV;
   private boolean iDirectionH;
-
   public Chaser(String filename) {
     super(filename);
     iDirectionV = true;
     iDirectionH = true;
 
-    this.isTransposable = true;
+    this.isTransposable = false; // Não pode atravessar
+    this.isMortal = true; // Causa dano ao herói
   }
 
   public void computeDirection(Hero hero) {

@@ -102,6 +102,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
       this.gameControl.desenhaTudo(currentLevel.getPersonagens());
       this.gameControl.processaTudo(currentLevel.getPersonagens());
       hero.autoDesenho();
+      
+      // Desenha a barra de vida
+      drawHealthBar(g2);
     }
 
     g.dispose();
@@ -203,5 +206,39 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   }
 
   public void keyReleased(KeyEvent e) {
+  }
+
+  /**
+   * Desenha a barra de vida do herói na tela
+   * @param g objeto Graphics para desenho
+   */
+  private void drawHealthBar(Graphics g) {
+    int healthBarWidth = 200;
+    int healthBarHeight = 20;
+    int healthBarX = 10;
+    int healthBarY = 10;
+    
+    // Desenha o contorno da barra de vida
+    g.setColor(java.awt.Color.BLACK);
+    g.drawRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
+    
+    // Calcula a largura atual da barra de vida baseado na porcentagem de vida
+    int currentHealthWidth = (int)((hero.getHealth() / (float)hero.getMaxHealth()) * healthBarWidth);
+    
+    // Define a cor da barra baseada na quantidade de vida
+    if (hero.getHealth() > 70) {
+      g.setColor(java.awt.Color.GREEN);
+    } else if (hero.getHealth() > 30) {
+      g.setColor(java.awt.Color.YELLOW);
+    } else {
+      g.setColor(java.awt.Color.RED);
+    }
+    
+    // Desenha a barra de vida atual
+    g.fillRect(healthBarX, healthBarY, currentHealthWidth, healthBarHeight);
+    
+    // Mostra o valor numérico da vida
+    g.setColor(java.awt.Color.BLACK);
+    g.drawString(hero.getHealth() + "/" + hero.getMaxHealth(), healthBarX + healthBarWidth / 2 - 15, healthBarY + 15);
   }
 }

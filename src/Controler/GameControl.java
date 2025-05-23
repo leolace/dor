@@ -3,6 +3,7 @@ package Controler;
 import Modelo.Chaser;
 import Modelo.Entity;
 import Modelo.Hero;
+import Modelo.HealthPotion;
 import java.util.ArrayList;
 
 import Auxiliar.Consts;
@@ -74,20 +75,38 @@ public class GameControl {
   public void updateCameraToHero() {
     this.updateCamera(new Posicao(this.hero.getLinha(), this.hero.getColuna()));
   }
-
   public void desenhaTudo(ArrayList<Entity> personagens) {
     for (int i = 0; i < personagens.size(); i++) {
       personagens.get(i).autoDesenho();
     }
-  }
-
-  public void processaTudo(ArrayList<Entity> personagens) {
+  }public void processaTudo(ArrayList<Entity> personagens) {
     for (int i = 0; i < personagens.size(); i++) {
       Entity personagem = personagens.get(i);
+      
+      // Verifica colisão com o herói
       if (hero.isSamePosition(personagem.getLinha(), personagem.getColuna())) {
-        if (personagem.isTransposable() && personagem.isMortal())
+        // Verifica se é uma poção de cura
+        if (personagem instanceof HealthPotion) {
+          HealthPotion potion = (HealthPotion) personagem;
+          hero.heal(potion.getHealAmount());
           personagens.remove(personagem);
-
+          System.out.println("Herói curou " + potion.getHealAmount() + " pontos de vida!");
+        }
+        // Se for um item coletável e mortal, remove-o
+        else if (personagem.isTransposable() && personagem.isMortal()) {
+          personagens.remove(personagem);
+        } 
+        // Se for um inimigo ou obstáculo mortal, causa dano
+        else if (personagem.isMortal()) {
+          // Aplica 10 de dano ao herói quando ele colide com um inimigo
+          hero.takeDamage(10);
+          System.out.println("Herói sofreu 10 pontos de dano! Vida atual: " + hero.getHealth());
+          
+          // Se o herói morreu, reinicia o nível
+          if (!hero.isAlive()) {
+            restartLevel();
+          }
+        }
       }
 
       if (personagem instanceof Chaser) {
@@ -108,5 +127,21 @@ public class GameControl {
         return personagemAtual.isTransposable();
     }
     return true;
+  }
+  /**
+   * Reinicia o nível atual
+   * Reposiciona o herói e restaura sua vida
+   */
+  public void restartLevel() {
+    // Restaura a vida do herói
+    this.hero.heal(this.hero.getMaxHealth());
+    
+    // Reposiciona o herói em uma posição inicial segura
+    this.hero.setPosicao(10, 10);
+    
+    // Atualiza a câmera para a nova posição do herói
+    this.updateCameraToHero();
+    
+    System.out.println("Nível reiniciado!");
   }
 }
