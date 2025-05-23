@@ -7,7 +7,6 @@ import Modelo.HorizontalBouncer;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import Auxiliar.Imagem;
-import Auxiliar.Posicao;
 import Modelo.VerticalBouncer;
 import Modelo.ZigueZague;
 import java.awt.Graphics;
@@ -15,15 +14,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener {
-  private Hero hero = new Hero("hero.png", new Posicao(10, 10));
-  private ArrayList<Fase> levels = new ArrayList<Fase>();
-  private int currentLevelIndex = 0;
+  private Hero hero;
   private Graphics g2;
+  private GameControl gameControl;
 
   public Tela() {
     initUiComponents();
@@ -35,62 +32,68 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     this.setSize(Consts.RES_X * Consts.CELL_SIDE + getInsets().left + getInsets().right,
         Consts.RES_Y * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
+    /* Cria o heroi */
+    this.hero = new Hero("hero.png");
+    this.hero.setPosicao(10, 10);
+
+    /* Inicia o game controller */
+    this.gameControl = new GameControl(this.hero);
+
+    /* Ajusta a camera para a posição do personagem */
+    this.gameControl.updateCameraToHero();
+
     /* Monta as fases */
     this.assembleLevel1();
     this.assembleLevel2();
-
-    /* Ajusta a camera para a posição do personagem */
-    this.getCurrentLevel().updateCameraToHero();
-
-    /* Inicia a primeira fase */
-    Desenho.setLevel(this.getCurrentLevel());
   }
 
   private void assembleLevel1() {
-    Fase fase = new Fase(this.hero);
+    Level fase = new Level(this.hero, this.gameControl);
 
-    ZigueZague zigueZague = new ZigueZague("robo.png", new Posicao(5, 11));
+    ZigueZague zigueZague = new ZigueZague("robo.png");
+    zigueZague.setPosicao(5, 11);
     fase.addPersonagem(zigueZague);
 
-    VerticalBouncer vBouncer = new VerticalBouncer("caveira.png", new Posicao(10, 10));
+    VerticalBouncer vBouncer = new VerticalBouncer("caveira.png");
+    vBouncer.setPosicao(10, 10);
     fase.addPersonagem(vBouncer);
 
-    Caveira bV = new Caveira("caveira.png", new Posicao(9, 1));
+    Caveira bV = new Caveira("caveira.png");
+    bV.setPosicao(9, 1);
     fase.addPersonagem(bV);
 
-    Chaser chase = new Chaser("chaser.png", new Posicao(12, 12));
+    Chaser chase = new Chaser("chaser.png");
+    chase.setPosicao(12, 12);
     fase.addPersonagem(chase);
 
-    this.levels.add(fase);
+    this.gameControl.addLevel(fase);
   }
 
   private void assembleLevel2() {
-    Fase fase = new Fase(this.hero);
+    this.hero.setPosicao(10, 10);
+    Level fase = new Level(this.hero, this.gameControl);
 
-    HorizontalBouncer hBouncer = new HorizontalBouncer("roboPink.png", new Posicao(3, 3));
+    HorizontalBouncer hBouncer = new HorizontalBouncer("roboPink.png");
+    hBouncer.setPosicao(3, 3);
     fase.addPersonagem(hBouncer);
 
-    this.levels.add(fase);
+    this.gameControl.addLevel(fase);
   }
 
   public Graphics getGraphicsBuffer() {
     return g2;
   }
 
-  public Fase getCurrentLevel() {
-    return this.levels.get(this.currentLevelIndex);
-  }
-
   public void paint(Graphics gOld) {
-    System.out.println(this.getCurrentLevel().getCameraPosition().getLinha() + ", "
-        + this.getCurrentLevel().getCameraPosition().getColuna());
+    System.out.println(GameControl.getCameraPosition().getLinha() + ", "
+        + GameControl.getCameraPosition().getColuna());
     Graphics g = this.getBufferStrategy().getDrawGraphics();
     g2 = g.create(getInsets().left, getInsets().top, getWidth() - getInsets().right, getHeight() - getInsets().top);
 
     for (int i = 0; i < Consts.RES_X; i++) {
       for (int j = 0; j < Consts.RES_Y; j++) {
-        int mapaLinha = this.getCurrentLevel().getCameraPosition().getLinha() + i;
-        int mapaColuna = this.getCurrentLevel().getCameraPosition().getColuna() + j;
+        int mapaLinha = GameControl.getCameraPosition().getLinha() + i;
+        int mapaColuna = GameControl.getCameraPosition().getColuna() + j;
 
         if (mapaLinha < Consts.MUNDO_ALTURA && mapaColuna < Consts.MUNDO_LARGURA) {
           Imagem grassImage = new Imagem("grass.png", g2);
@@ -99,9 +102,11 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         }
       }
     }
-    if (!this.getCurrentLevel().getPersonagens().isEmpty()) {
-      this.getCurrentLevel().desenhaTudo(this.getCurrentLevel().getPersonagens());
-      this.getCurrentLevel().processaTudo(this.getCurrentLevel().getPersonagens());
+
+    Level currentLevel = GameControl.getCurrentLevel();
+    if (!currentLevel.getPersonagens().isEmpty()) {
+      this.gameControl.desenhaTudo(currentLevel.getPersonagens());
+      this.gameControl.processaTudo(currentLevel.getPersonagens());
       hero.autoDesenho();
     }
 
@@ -132,11 +137,16 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
       hero.moveRight();
     }
-    this.getCurrentLevel().updateCameraToHero();
+    this.gameControl.updateCameraToHero();
     this.setTitle("-> Cell: " + (hero.getColuna()) + ", "
         + (hero.getLinha()));
 
     hero.autoDesenho();
+  }
+
+  private void nextLevelRepaint() {
+    this.gameControl.nextLevel();
+    repaint();
   }
 
   public void mousePressed(MouseEvent e) {
@@ -173,23 +183,12 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     pack();
   }
 
-  public void nextLevel() {
-    if (this.currentLevelIndex >= this.levels.size() - 1) {
-      System.out.println("Fim do jogo");
-      return;
-    }
-    this.currentLevelIndex++;
-    Desenho.setLevel(this.getCurrentLevel());
-    this.getCurrentLevel().updateCameraToHero();
-    repaint();
-  }
-
   public void mouseMoved(MouseEvent e) {
   }
 
   public void mouseClicked(MouseEvent e) {
     if (e.getButton() == MouseEvent.BUTTON3)
-      this.nextLevel();
+      this.nextLevelRepaint();
     else
       handleClick(e);
   }

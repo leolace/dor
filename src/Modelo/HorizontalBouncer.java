@@ -1,13 +1,11 @@
 package Modelo;
 
-import Auxiliar.Posicao;
-
 public class HorizontalBouncer extends Entity {
   private boolean isMovingRight = true;
   private int movementCounter = 0;
 
-  public HorizontalBouncer(String filename, Posicao posicao) {
-    super(filename, posicao);
+  public HorizontalBouncer(String filename) {
+    super(filename);
     this.setMovementDelay(10);
   }
 

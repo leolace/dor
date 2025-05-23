@@ -8,14 +8,13 @@ import Modelo.Entity;
 import Modelo.Hero;
 import Modelo.Key;
 
-public class Fase extends ControleDeJogo {
+public class Level {
   private ArrayList<Entity> personagens = new ArrayList<Entity>();
   private Posicao keyPosition;
-  private Hero hero;
+  private GameControl gameControl;
 
-  public Fase(Hero hero) {
-    super(hero);
-    this.hero = hero;
+  public Level(Hero hero, GameControl gameControl) {
+    this.gameControl = gameControl;
     this.addPersonagem(hero);
 
     this.keyPosition = this.genKeyPosition();
@@ -24,7 +23,8 @@ public class Fase extends ControleDeJogo {
   }
 
   public Key createKeyEntity() {
-    Key key = new Key("key.png", new Posicao(this.keyPosition.getLinha(), this.keyPosition.getColuna()));
+    Key key = new Key("key.png");
+    key.setPosicao(this.keyPosition.getLinha(), this.keyPosition.getColuna());
     return key;
   }
 
@@ -48,7 +48,7 @@ public class Fase extends ControleDeJogo {
   }
 
   public boolean isLevelValidPosition(Entity entity) {
-    return this.isValidPosition(personagens, entity);
+    return this.gameControl.isValidPosition(personagens, entity);
   }
 
 }

@@ -8,17 +8,36 @@ import java.util.ArrayList;
 import Auxiliar.Consts;
 import Auxiliar.Posicao;
 
-public class ControleDeJogo {
-  private Posicao cameraPosition;
+public class GameControl {
+  private static Posicao cameraPosition;
   private Hero hero;
+  private static int currentLevelIndex = 0;
+  private static ArrayList<Level> levels = new ArrayList<Level>();
 
-  public ControleDeJogo(Hero hero) {
+  public GameControl(Hero hero) {
     cameraPosition = new Posicao(hero.getLinha(), hero.getColuna());
     this.hero = hero;
   }
 
-  public Posicao getCameraPosition() {
-    return this.cameraPosition;
+  public void addLevel(Level level) {
+    GameControl.levels.add(level);
+  }
+
+  public void nextLevel() {
+    if (GameControl.currentLevelIndex >= GameControl.levels.size() - 1) {
+      System.out.println("Fim do jogo");
+      return;
+    }
+    GameControl.currentLevelIndex++;
+    this.updateCameraToHero();
+  }
+
+  public static Posicao getCameraPosition() {
+    return GameControl.cameraPosition;
+  }
+
+  public static Level getCurrentLevel() {
+    return levels.get(currentLevelIndex);
   }
 
   public void updateCamera(Posicao posicao) {
@@ -28,7 +47,7 @@ public class ControleDeJogo {
     int cameraLinha = Math.max(0, Math.min(linha - Consts.RES_X / 2, Consts.MUNDO_ALTURA - Consts.RES_X));
     int cameraColuna = Math.max(0, Math.min(coluna - Consts.RES_Y / 2, Consts.MUNDO_LARGURA - Consts.RES_Y));
 
-    this.cameraPosition = new Posicao(cameraLinha, cameraColuna);
+    GameControl.cameraPosition = new Posicao(cameraLinha, cameraColuna);
   }
 
   public void updateCameraToHero() {
@@ -46,7 +65,7 @@ public class ControleDeJogo {
     for (int i = 1; i < personagens.size(); i++) {
       Entity personagem = personagens.get(i);
       if (hero.isSamePosition(personagem.getLinha(), personagem.getColuna())) {
-        if (personagem.isbTransponivel() && personagem.isbMortal())
+        if (personagem.isTransposable() && personagem.isMortal())
           personagens.remove(personagem);
 
       }
@@ -65,7 +84,7 @@ public class ControleDeJogo {
   public boolean isValidPosition(ArrayList<Entity> personagens, Entity personagem) {
     for (int i = 1; i < personagens.size(); i++) {
       Entity personagemAtual = personagens.get(i);
-      if (personagemAtual.isbTransponivel())
+      if (personagemAtual.isTransposable())
         return true;
 
       if (personagemAtual.isSamePosition(personagem.getLinha(), personagem.getColuna())) {

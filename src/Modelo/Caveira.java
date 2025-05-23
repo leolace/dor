@@ -1,16 +1,15 @@
 package Modelo;
 
 import Auxiliar.Consts;
-import Auxiliar.Desenho;
-import Auxiliar.Posicao;
+import Controler.GameControl;
 
 public class Caveira extends Entity {
   private int iContaIntervalos;
 
-  public Caveira(String filename, Posicao posicao) {
-    super(filename, posicao);
-    this.bTransponivel = false;
-    bMortal = false;
+  public Caveira(String filename) {
+    super(filename);
+    this.isTransposable = false;
+    isMortal = false;
     this.iContaIntervalos = 0;
   }
 
@@ -19,8 +18,9 @@ public class Caveira extends Entity {
     this.iContaIntervalos++;
     if (this.iContaIntervalos == Consts.TIMER) {
       this.iContaIntervalos = 0;
-      Fogo f = new Fogo("fire.png", new Posicao(pPosicao.getLinha(), pPosicao.getColuna() + 1));
-      Desenho.getLevel().addPersonagem(f);
+      Fogo f = new Fogo("fire.png");
+      f.setPosicao(position.getLinha(), position.getColuna() + 1);
+      GameControl.getCurrentLevel().addPersonagem(f);
     }
   }
 }

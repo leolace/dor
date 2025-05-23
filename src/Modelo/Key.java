@@ -1,11 +1,9 @@
 package Modelo;
 
-import Auxiliar.Posicao;
-
 public class Key extends Entity {
-  public Key(String filename, Posicao posicao) {
-    super(filename, posicao);
-    this.bMortal = false;
+  public Key(String filename) {
+    super(filename);
+    this.isMortal = false;
     this.setMovementDelay(0);
   }
 

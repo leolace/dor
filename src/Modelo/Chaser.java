@@ -1,17 +1,15 @@
 package Modelo;
 
-import Auxiliar.Posicao;
-
 public class Chaser extends Entity {
   private boolean iDirectionV;
   private boolean iDirectionH;
 
-  public Chaser(String filename, Posicao posicao) {
-    super(filename, posicao);
+  public Chaser(String filename) {
+    super(filename);
     iDirectionV = true;
     iDirectionH = true;
 
-    this.bTransponivel = true;
+    this.isTransposable = true;
   }
 
   public void computeDirection(Hero hero) {

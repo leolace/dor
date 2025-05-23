@@ -10,14 +10,14 @@ import javax.swing.ImageIcon;
 
 public abstract class Entity implements Serializable {
   protected ImageIcon iImage;
-  protected Posicao pPosicao;
-  protected boolean bTransponivel; /* Pode passar por cima? */
-  protected boolean bMortal; /* Se encostar, morre? */
+  protected Posicao position;
+  protected boolean isTransposable; /* Pode passar por cima? */
+  protected boolean isMortal; /* Se encostar, morre? */
   private int contadorMovimento = 0;
   private int movementDelay = 5;
 
-  public boolean isbMortal() {
-    return bMortal;
+  public boolean isMortal() {
+    return isMortal;
   }
 
   protected abstract void movement();
@@ -26,10 +26,10 @@ public abstract class Entity implements Serializable {
     this.movementDelay = movementDelay;
   }
 
-  protected Entity(String filename, Posicao posicao) {
-    this.pPosicao = posicao;
-    this.bTransponivel = true;
-    this.bMortal = false;
+  protected Entity(String filename) {
+    this.position = new Posicao(0, 0);
+    this.isTransposable = true;
+    this.isMortal = false;
 
     BufferedImage bi = new BufferedImage(Consts.CELL_SIDE, Consts.CELL_SIDE, BufferedImage.TYPE_INT_ARGB);
     Imagem entityImage = new Imagem(filename, bi.createGraphics());
@@ -38,23 +38,23 @@ public abstract class Entity implements Serializable {
   }
 
   public int getLinha() {
-    return pPosicao.getLinha();
+    return position.getLinha();
   }
 
   public int getColuna() {
-    return pPosicao.getColuna();
+    return position.getColuna();
   }
 
-  public boolean isbTransponivel() {
-    return bTransponivel;
+  public boolean isTransposable() {
+    return isTransposable;
   }
 
-  public void setbTransponivel(boolean bTransponivel) {
-    this.bTransponivel = bTransponivel;
+  public void setTransposable(boolean bTransponivel) {
+    this.isTransposable = bTransponivel;
   }
 
   public void autoDesenho() {
-    Desenho.desenhar(this.iImage, this.pPosicao.getColuna(), this.pPosicao.getLinha());
+    Desenho.desenhar(this.iImage, this.position.getColuna(), this.position.getLinha());
 
     contadorMovimento++;
     if (contadorMovimento >= movementDelay) {
@@ -64,26 +64,26 @@ public abstract class Entity implements Serializable {
   }
 
   public boolean setPosicao(int linha, int coluna) {
-    return pPosicao.setPosicao(linha, coluna);
+    return position.setPosicao(linha, coluna);
   }
 
   public boolean isSamePosition(int linha, int coluna) {
-    return this.pPosicao.igual(new Posicao(linha, coluna));
+    return this.position.igual(new Posicao(linha, coluna));
   }
 
   public boolean moveUp() {
-    return this.pPosicao.moveUp();
+    return this.position.moveUp();
   }
 
   public boolean moveDown() {
-    return this.pPosicao.moveDown();
+    return this.position.moveDown();
   }
 
   public boolean moveRight() {
-    return this.pPosicao.moveRight();
+    return this.position.moveRight();
   }
 
   public boolean moveLeft() {
-    return this.pPosicao.moveLeft();
+    return this.position.moveLeft();
   }
 }
