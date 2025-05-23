@@ -14,7 +14,7 @@ public class Hero extends Entity {
     this.maxHealth = 100;
     this.health = this.maxHealth;
     this.invincible = false;
-    this.invincibilityFrames = 60; // Aproximadamente 2 segundos de invencibilidade após tomar dano
+    this.invincibilityFrames = 15; // Aproximadamente 2 segundos de invencibilidade após tomar dano
     this.currentInvincibilityFrames = 0;
   }
 

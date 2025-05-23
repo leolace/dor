@@ -8,8 +8,10 @@ public class Chaser extends Entity {
     iDirectionV = true;
     iDirectionH = true;
 
-    this.isTransposable = false; // Não pode atravessar
-    this.isMortal = true; // Causa dano ao herói
+    this.isTransposable = true;
+    this.isMortal = false;
+
+    setMovementDelay(15);
   }
 
   public void computeDirection(Hero hero) {

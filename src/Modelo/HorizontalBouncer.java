@@ -7,8 +7,8 @@ public class HorizontalBouncer extends Entity {
   public HorizontalBouncer(String filename) {
     super(filename);
     this.setMovementDelay(10);
-    this.isTransposable = false; // Não pode atravessar
-    this.isMortal = true; // Causa dano ao herói
+    this.isTransposable = true; // Não pode atravessar
+    this.isMortal = false;
   }
 
   @Override

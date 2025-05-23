@@ -7,8 +7,9 @@ public class Caveira extends Entity {
   private int iContaIntervalos;
   public Caveira(String filename) {
     super(filename);
-    this.isTransposable = false; // Não pode atravessar
-    this.isMortal = true; // Causa dano ao herói
+    this.isTransposable = true;
+    this.isMortal = false; // Causa dano ao herói
+    this.isDangerous = true; // Causa dano ao herói
     this.iContaIntervalos = 0;
   }
 

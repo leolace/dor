@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class ZigueZague extends Entity {  public ZigueZague(String filename) {
     super(filename);
-    this.isTransposable = false; // Não pode atravessar
-    this.isMortal = true; // Causa dano ao herói
+    this.isTransposable = true;
+    this.isMortal = false;
   }
 
   @Override

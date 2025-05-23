@@ -51,19 +51,19 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     Level fase = GameControl.getLevel(0);
 
     ZigueZague zigueZague = new ZigueZague("robo.png");
-    zigueZague.setPosicao(5, 11);
+    zigueZague.setPosicao(5, 15);
     fase.addPersonagem(zigueZague);
 
     VerticalBouncer vBouncer = new VerticalBouncer("caveira.png");
-    vBouncer.setPosicao(10, 10);
+    vBouncer.setPosicao(25, 10);
     fase.addPersonagem(vBouncer);
 
-    Caveira bV = new Caveira("caveira.png");
-    bV.setPosicao(9, 1);
+    Caveira bV = new Caveira("skoot.png");
+    bV.setPosicao(19, 1);
     fase.addPersonagem(bV);
 
     Chaser chase = new Chaser("chaser.png");
-    chase.setPosicao(12, 12);
+    chase.setPosicao(20, 5);
     fase.addPersonagem(chase);
   }
 

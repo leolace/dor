@@ -7,6 +7,7 @@ public class Fogo extends Entity {
   public Fogo(String filename) {
     super(filename);
     this.isMortal = true;
+    this.isTransposable = true;
     this.setMovementDelay(3);
   }
 

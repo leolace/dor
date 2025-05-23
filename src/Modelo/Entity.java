@@ -13,11 +13,16 @@ public abstract class Entity implements Serializable {
   protected Posicao position;
   protected boolean isTransposable; /* Pode passar por cima? */
   protected boolean isMortal; /* Se encostar, morre? */
+  protected boolean isDangerous; /* Pode se mover? */
   private int contadorMovimento = 0;
   private int movementDelay = 5;
 
   public boolean isMortal() {
     return isMortal;
+  }
+
+  public boolean isDangerous() {
+    return isDangerous;
   }
 
   protected abstract void movement();
@@ -30,6 +35,7 @@ public abstract class Entity implements Serializable {
     this.position = new Posicao(0, 0);
     this.isTransposable = true;
     this.isMortal = false;
+    this.isDangerous = true;
 
     BufferedImage bi = new BufferedImage(Consts.CELL_SIDE, Consts.CELL_SIDE, BufferedImage.TYPE_INT_ARGB);
     Imagem entityImage = new Imagem(filename, bi.createGraphics());

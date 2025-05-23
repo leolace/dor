@@ -6,8 +6,8 @@ public class VerticalBouncer extends Entity {
   public VerticalBouncer(String filename) {
     super(filename);
     bUp = true;
-    this.isTransposable = false; // Não pode atravessar
-    this.isMortal = true; // Causa dano ao herói
+    this.isTransposable = true;
+    this.isMortal = false;
   }
 
   @Override

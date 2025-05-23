@@ -14,6 +14,7 @@ public class HealthPotion extends Entity {
         super(filename);
         this.isTransposable = true; // Pode ser coletado/atravessado
         this.isMortal = false; // Não causa dano
+        this.isDangerous = false; // Não é perigoso
         this.healAmount = 25; // Recupera 25 de vida por padrão
     }
     

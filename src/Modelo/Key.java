@@ -3,7 +3,9 @@ package Modelo;
 public class Key extends Entity {
   public Key(String filename) {
     super(filename);
-    this.isMortal = false;
+    this.isMortal = true;
+    this.isTransposable = true; // Pode passar através de outros objetos
+    this.isDangerous = false;
     this.setMovementDelay(0);
   }
 
