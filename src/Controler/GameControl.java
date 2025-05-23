@@ -12,15 +12,36 @@ public class GameControl {
   private static Posicao cameraPosition;
   private Hero hero;
   private static int currentLevelIndex = 0;
-  private static ArrayList<Level> levels = new ArrayList<Level>();
+  public static ArrayList<Level> levels = new ArrayList<Level>();
 
   public GameControl(Hero hero) {
     cameraPosition = new Posicao(hero.getLinha(), hero.getColuna());
     this.hero = hero;
+
+    this.assembleLevels();
   }
 
-  public void addLevel(Level level) {
-    GameControl.levels.add(level);
+  private void assembleLevels() {
+    // Adiciona 5 níveis
+    GameControl.levels.add(new Level(hero, this));
+    GameControl.levels.add(new Level(hero, this));
+    GameControl.levels.add(new Level(hero, this));
+    GameControl.levels.add(new Level(hero, this));
+    GameControl.levels.add(new Level(hero, this));
+
+    // Adiciona árvores a todos os níveis
+    for (Level level : GameControl.levels) {
+      level.addTrees();
+    }
+  }
+
+  public static Level getLevel(int index) {
+    if (index < 0 || index >= levels.size()) {
+      System.out.println("Index fora do limite");
+      return null;
+    }
+
+    return levels.get(index);
   }
 
   public void nextLevel() {

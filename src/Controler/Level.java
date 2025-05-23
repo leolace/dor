@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Auxiliar.Posicao;
+import Auxiliar.TreeGenerator;
 import Modelo.Entity;
 import Modelo.Hero;
 import Modelo.Key;
@@ -17,6 +18,7 @@ public class Level {
     this.gameControl = gameControl;
     this.addPersonagem(hero);
 
+    /* Gera a chave */
     this.keyPosition = this.genKeyPosition();
     Key key = createKeyEntity();
     this.addPersonagem(key);
@@ -51,4 +53,11 @@ public class Level {
     return this.gameControl.isValidPosition(personagens, entity);
   }
 
+  /**
+   * Adiciona árvores à fase
+   */
+  public void addTrees() {
+    TreeGenerator treeGenerator = new TreeGenerator();
+    treeGenerator.addTrees(this);
+  }
 }

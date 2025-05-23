@@ -48,7 +48,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   }
 
   private void assembleLevel1() {
-    Level fase = new Level(this.hero, this.gameControl);
+    Level fase = GameControl.getLevel(0);
 
     ZigueZague zigueZague = new ZigueZague("robo.png");
     zigueZague.setPosicao(5, 11);
@@ -65,19 +65,15 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     Chaser chase = new Chaser("chaser.png");
     chase.setPosicao(12, 12);
     fase.addPersonagem(chase);
-
-    this.gameControl.addLevel(fase);
   }
 
   private void assembleLevel2() {
     this.hero.setPosicao(10, 10);
-    Level fase = new Level(this.hero, this.gameControl);
+    Level fase = GameControl.getLevel(1);
 
     HorizontalBouncer hBouncer = new HorizontalBouncer("roboPink.png");
     hBouncer.setPosicao(3, 3);
     fase.addPersonagem(hBouncer);
-
-    this.gameControl.addLevel(fase);
   }
 
   public Graphics getGraphicsBuffer() {
@@ -85,8 +81,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   }
 
   public void paint(Graphics gOld) {
-    System.out.println(GameControl.getCameraPosition().getLinha() + ", "
-        + GameControl.getCameraPosition().getColuna());
     Graphics g = this.getBufferStrategy().getDrawGraphics();
     g2 = g.create(getInsets().left, getInsets().top, getWidth() - getInsets().right, getHeight() - getInsets().top);
 
