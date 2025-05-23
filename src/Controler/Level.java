@@ -12,25 +12,42 @@ import Modelo.Key;
 
 public class Level {
   private ArrayList<Entity> personagens = new ArrayList<Entity>();
+  private Key keyEntity;
   private Posicao keyPosition;
   private GameControl gameControl;
+  private static final int HEALTH_POTIONS_COUNT = 5;
 
   public Level(Hero hero, GameControl gameControl) {
     this.gameControl = gameControl;
     
     /* Gera a chave */
-    this.keyPosition = this.genKeyPosition();
-    Key key = createKeyEntity();
-    this.addPersonagem(key);
+    this.keyEntity = createKeyEntity();
+    this.addPersonagem(this.keyEntity);
     
     // Adiciona poções de cura aleatoriamente
-    addHealthPotions(3); // Adiciona 3 poções de cura por nível
+    addHealthPotions(Level.HEALTH_POTIONS_COUNT); // Adiciona 3 poções de cura por nível
   }
-
+  
   public Key createKeyEntity() {
+    this.keyPosition = this.genKeyPosition();
     Key key = new Key("key.png");
     key.setPosicao(this.keyPosition.getLinha(), this.keyPosition.getColuna());
     return key;
+  }
+
+  public void restartHealthPotions() {
+    for (int i = personagens.size() - 1; i >= 0; i--) {
+      if (personagens.get(i) instanceof HealthPotion) {
+        personagens.remove(i);
+      }
+    }
+    addHealthPotions(Level.HEALTH_POTIONS_COUNT); // Adiciona 3 poções de cura por nível
+  }
+
+  public void restartKey() {
+    this.personagens.remove(this.keyEntity);
+    this.keyEntity = createKeyEntity();
+    this.addPersonagem(this.keyEntity);
   }
 
   public ArrayList<Entity> getPersonagens() {
@@ -47,8 +64,8 @@ public class Level {
 
   private Posicao genKeyPosition() {
     Random rand = new Random();
-    int linha = rand.nextInt(Auxiliar.Consts.RES_X);
-    int coluna = rand.nextInt(Auxiliar.Consts.RES_Y);
+    int linha = rand.nextInt(Auxiliar.Consts.MUNDO_ALTURA);
+    int coluna = rand.nextInt(Auxiliar.Consts.MUNDO_LARGURA);
     return new Posicao(linha, coluna);
   }
 
@@ -78,8 +95,8 @@ public class Level {
       attempts++;
       
       // Gera uma posição aleatória
-      int linha = rand.nextInt(Auxiliar.Consts.RES_X);
-      int coluna = rand.nextInt(Auxiliar.Consts.RES_Y);
+      int linha = rand.nextInt(Auxiliar.Consts.MUNDO_ALTURA);
+      int coluna = rand.nextInt(Auxiliar.Consts.MUNDO_LARGURA);
       
       // Verifica se a posição não está ocupada
       boolean positionOccupied = false;

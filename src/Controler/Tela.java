@@ -102,9 +102,10 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
       this.gameControl.desenhaTudo(currentLevel.getPersonagens());
       this.gameControl.processaTudo(currentLevel.getPersonagens());
       hero.autoDesenho();
-      
+
       // Desenha a barra de vida
-      drawHealthBar(g2);
+      this.drawHealthBar(g2);
+      this.drawLevelIndicator(g2);
     }
 
     g.dispose();
@@ -141,24 +142,13 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     hero.autoDesenho();
   }
 
-  private void nextLevelRepaint() {
+  private void nextLevel() {
     this.gameControl.nextLevel();
+    this.setTitle("Nivel " + (GameControl.getCurrentLevelIndex() + 1));
     repaint();
   }
 
   public void mousePressed(MouseEvent e) {
-  }
-
-  public void handleClick(MouseEvent e) {
-    int x = e.getX();
-    int y = e.getY();
-
-    this.setTitle("X: " + x + ", Y: " + y
-        + " -> Cell: " + (y / Consts.CELL_SIDE) + ", " + (x / Consts.CELL_SIDE));
-
-    this.hero.setPosicao(y / Consts.CELL_SIDE, x / Consts.CELL_SIDE);
-
-    repaint();
   }
 
   private void initUiComponents() {
@@ -185,9 +175,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
   public void mouseClicked(MouseEvent e) {
     if (e.getButton() == MouseEvent.BUTTON3)
-      this.nextLevelRepaint();
-    else
-      handleClick(e);
+      this.nextLevel();
   }
 
   public void mouseReleased(MouseEvent e) {
@@ -208,8 +196,15 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   public void keyReleased(KeyEvent e) {
   }
 
+  private void drawLevelIndicator(Graphics g) {
+    g.setColor(java.awt.Color.YELLOW);
+    g.setFont(g.getFont().deriveFont(20f).deriveFont(java.awt.Font.BOLD));
+    g.drawString("Level: " + (GameControl.getCurrentLevelIndex() + 1), 10, 880);
+  }
+
   /**
    * Desenha a barra de vida do herói na tela
+   * 
    * @param g objeto Graphics para desenho
    */
   private void drawHealthBar(Graphics g) {
@@ -217,14 +212,14 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     int healthBarHeight = 20;
     int healthBarX = 10;
     int healthBarY = 10;
-    
+
     // Desenha o contorno da barra de vida
     g.setColor(java.awt.Color.BLACK);
     g.drawRect(healthBarX, healthBarY, healthBarWidth, healthBarHeight);
-    
+
     // Calcula a largura atual da barra de vida baseado na porcentagem de vida
-    int currentHealthWidth = (int)((hero.getHealth() / (float)hero.getMaxHealth()) * healthBarWidth);
-    
+    int currentHealthWidth = (int) ((hero.getHealth() / (float) hero.getMaxHealth()) * healthBarWidth);
+
     // Define a cor da barra baseada na quantidade de vida
     if (hero.getHealth() > 70) {
       g.setColor(java.awt.Color.GREEN);
@@ -233,10 +228,10 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     } else {
       g.setColor(java.awt.Color.RED);
     }
-    
+
     // Desenha a barra de vida atual
     g.fillRect(healthBarX, healthBarY, currentHealthWidth, healthBarHeight);
-    
+
     // Mostra o valor numérico da vida
     g.setColor(java.awt.Color.BLACK);
     g.drawString(hero.getHealth() + "/" + hero.getMaxHealth(), healthBarX + healthBarWidth / 2 - 15, healthBarY + 15);

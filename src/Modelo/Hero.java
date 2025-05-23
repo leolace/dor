@@ -14,7 +14,7 @@ public class Hero extends Entity {
     this.maxHealth = 100;
     this.health = this.maxHealth;
     this.invincible = false;
-    this.invincibilityFrames = 15; // Aproximadamente 2 segundos de invencibilidade após tomar dano
+    this.invincibilityFrames = 10; // Aproximadamente 2 segundos de invencibilidade após tomar dano
     this.currentInvincibilityFrames = 0;
   }
 
@@ -86,9 +86,6 @@ public class Hero extends Entity {
     this.health -= damageAmount;
     if (this.health <= 0) {
       this.health = 0;
-      // O herói morreu
-      System.out.println("O herói morreu!");
-      // Aqui poderia haver uma lógica para reset do jogo ou game over
     }
     
     // Ativa invencibilidade temporária

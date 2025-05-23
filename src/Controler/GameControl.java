@@ -13,7 +13,7 @@ public class GameControl {
   private static Posicao cameraPosition;
   private Hero hero;
   private static int currentLevelIndex = 0;
-  public static ArrayList<Level> levels = new ArrayList<Level>();
+  private static ArrayList<Level> levels = new ArrayList<Level>();
 
   public GameControl(Hero hero) {
     cameraPosition = new Posicao(hero.getLinha(), hero.getColuna());
@@ -45,9 +45,16 @@ public class GameControl {
     return levels.get(index);
   }
 
+  public static ArrayList<Level> getLevels() {
+    return levels;
+  }
+
+  public static int getCurrentLevelIndex() {
+    return currentLevelIndex;
+  }
+
   public void nextLevel() {
     if (GameControl.currentLevelIndex >= GameControl.levels.size() - 1) {
-      System.out.println("Fim do jogo");
       return;
     }
     GameControl.currentLevelIndex++;
@@ -60,6 +67,10 @@ public class GameControl {
 
   public static Level getCurrentLevel() {
     return levels.get(currentLevelIndex);
+  }
+
+  public static void setCurrentLevelIndex(int index) {
+    GameControl.currentLevelIndex = index;
   }
 
   public void updateCamera(Posicao posicao) {
@@ -93,17 +104,15 @@ public class GameControl {
           HealthPotion potion = (HealthPotion) personagem;
           hero.heal(potion.getHealAmount());
           personagens.remove(personagem);
-          System.out.println("Herói curou " + potion.getHealAmount() + " pontos de vida!");
         }
         // Se for um inimigo ou obstáculo mortal, causa dano
         if (personagem.isDangerous()) {
           // Aplica 10 de dano ao herói quando ele colide com um inimigo
-          hero.takeDamage(10);
-          System.out.println("Herói sofreu 10 pontos de dano! Vida atual: " + hero.getHealth());
+          hero.takeDamage(50);
 
           // Se o herói morreu, reinicia o nível
           if (!hero.isAlive()) {
-            restartLevel();
+            this.restartLevel();
           }
         }
         // Se for um item coletável e mortal, remove-o
@@ -146,6 +155,7 @@ public class GameControl {
     // Atualiza a câmera para a nova posição do herói
     this.updateCameraToHero();
 
-    System.out.println("Nível reiniciado!");
+    GameControl.getCurrentLevel().restartHealthPotions();
+    GameControl.getCurrentLevel().restartKey();
   }
 }
