@@ -3,6 +3,7 @@ package Controler;
 import Modelo.Chaser;
 import Modelo.Entity;
 import Modelo.Hero;
+import Modelo.Key;
 import Modelo.HealthPotion;
 import java.util.ArrayList;
 
@@ -90,34 +91,39 @@ public class GameControl {
 
   public void processaTudo(ArrayList<Entity> personagens) {
     for (int i = 0; i < personagens.size(); i++) {
-      Entity personagem = personagens.get(i);
+      Entity entity = personagens.get(i);
 
       // Verifica colisão com o herói
-      if (hero.isSamePosition(personagem.getLinha(), personagem.getColuna())) {
-        // Verifica se é uma poção de cura
-        if (personagem instanceof HealthPotion) {
-          HealthPotion potion = (HealthPotion) personagem;
-          hero.heal(potion.getHealAmount());
-          personagens.remove(personagem);
+      if (hero.isSamePosition(entity.getLinha(), entity.getColuna())) {
+        // Se o herói colidir com a chave, avança para o próximo nível
+        if (entity instanceof Key) {
+          this.nextLevel();
         }
+
+        // Verifica se é uma poção de cura
+        if (entity instanceof HealthPotion) {
+          HealthPotion potion = (HealthPotion) entity;
+          hero.heal(potion.getHealAmount());
+          personagens.remove(entity);
+        }
+
         // Se for um inimigo ou obstáculo mortal, causa dano
-        if (personagem.isDangerous()) {
-          // Aplica 10 de dano ao herói quando ele colide com um inimigo
+        if (entity.isDangerous()) {
           hero.takeDamage(50);
 
-          // Se o herói morreu, reinicia o nível
           if (!hero.isAlive()) {
             this.restartLevel();
           }
         }
+
         // Se for um item coletável e mortal, remove-o
-        if (personagem.isTransposable() && personagem.isMortal()) {
-          personagens.remove(personagem);
+        if (entity.isTransposable() && entity.isMortal()) {
+          personagens.remove(entity);
         }
       }
 
-      if (personagem instanceof Chaser) {
-        ((Chaser) personagem).computeDirection(hero);
+      if (entity instanceof Chaser) {
+        ((Chaser) entity).computeDirection(hero);
       }
     }
 

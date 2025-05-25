@@ -37,6 +37,10 @@ public class Level {
     return key;
   }
 
+  public Posicao getKeyPosition() {
+    return this.keyPosition;
+  }
+
   public void restartHealthPotions() {
     for (int i = personagens.size() - 1; i >= 0; i--) {
       if (personagens.get(i) instanceof HealthPotion) {

@@ -44,38 +44,113 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     this.gameControl.updateCameraToHero();
 
     /* Monta as fases */
+    this.assembleLevel0();
     this.assembleLevel1();
     this.assembleLevel2();
+    this.assembleLevel3();
+    this.assembleLevel4();
+  }
+
+  private void assembleLevel0() {
+    Level fase = GameControl.getLevel(0);
+
+    // Inimigos ZigueZague
+    EntityGenerator<ZigueZague> zigueZagueGenerator = new EntityGenerator<ZigueZague>("robo.png", ZigueZague.class, 5,
+        15);
+    fase.addAllPersonagens(zigueZagueGenerator.getEntities());
+
+    // Inimigos VerticalBouncer
+    EntityGenerator<VerticalBouncer> vBouncerGenerator = new EntityGenerator<VerticalBouncer>("caveira.png",
+        VerticalBouncer.class, 5, 12);
+    fase.addAllPersonagens(vBouncerGenerator.getEntities());
+
+    // Inimigos Caveira
+    EntityGenerator<Caveira> caveiraGenerator = new EntityGenerator<Caveira>("skoot.png", Caveira.class, 7, 12);
+    fase.addAllPersonagens(caveiraGenerator.getEntities());
   }
 
   private void assembleLevel1() {
-    Level fase = GameControl.getLevel(0);
+    this.hero.setPosicao(10, 10);
+    Level fase = GameControl.getLevel(1);
 
-    EntityGenerator<ZigueZague> zigueZagueGenerator = new EntityGenerator<ZigueZague>("robo.png", ZigueZague.class, 10,
-        20);
-    fase.addAllPersonagens(zigueZagueGenerator.getEntities());
-
-    EntityGenerator<VerticalBouncer> vBouncerGenerator = new EntityGenerator<VerticalBouncer>("caveira.png", VerticalBouncer.class, 10,
+    EntityGenerator<ZigueZague> zigueZagueGenerator = new EntityGenerator<ZigueZague>("robo.png", ZigueZague.class, 5,
         15);
     fase.addAllPersonagens(zigueZagueGenerator.getEntities());
+
+    EntityGenerator<VerticalBouncer> vBouncerGenerator = new EntityGenerator<VerticalBouncer>("caveira.png",
+        VerticalBouncer.class, 5, 12);
     fase.addAllPersonagens(vBouncerGenerator.getEntities());
 
-    EntityGenerator<Caveira> caveiraGenerator = new EntityGenerator<Caveira>("skoot.png", Caveira.class, 10,
-        15);
+    EntityGenerator<Caveira> caveiraGenerator = new EntityGenerator<Caveira>("skoot.png", Caveira.class, 5, 12);
     fase.addAllPersonagens(caveiraGenerator.getEntities());
 
-    Chaser chase = new Chaser("chaser.png");
-    chase.setPosicao(20, 5);
-    fase.addPersonagem(chase);
+    EntityGenerator<Chaser> chaserGenerator = new EntityGenerator<Chaser>("chaser.png", Chaser.class, 1,
+        5);
+    fase.addAllPersonagens(chaserGenerator.getEntities());
   }
 
   private void assembleLevel2() {
     this.hero.setPosicao(10, 10);
-    Level fase = GameControl.getLevel(1);
+    Level fase = GameControl.getLevel(2);
 
-    HorizontalBouncer hBouncer = new HorizontalBouncer("roboPink.png");
-    hBouncer.setPosicao(3, 3);
-    fase.addPersonagem(hBouncer);
+    EntityGenerator<ZigueZague> zigueZagueGenerator = new EntityGenerator<ZigueZague>("robo.png", ZigueZague.class, 5,
+        10);
+    fase.addAllPersonagens(zigueZagueGenerator.getEntities());
+
+    EntityGenerator<Chaser> chaserGenerator = new EntityGenerator<Chaser>("chaser.png", Chaser.class, 2,
+        5);
+    fase.addAllPersonagens(chaserGenerator.getEntities());
+
+    EntityGenerator<Caveira> caveiraGenerator = new EntityGenerator<Caveira>("skoot.png", Caveira.class, 10, 12);
+    fase.addAllPersonagens(caveiraGenerator.getEntities());
+  }
+
+  private void assembleLevel3() {
+    this.hero.setPosicao(10, 10);
+    Level fase = GameControl.getLevel(3);
+
+    EntityGenerator<ZigueZague> zigueZagueGenerator = new EntityGenerator<ZigueZague>("robo.png", ZigueZague.class, 5,
+        10);
+    fase.addAllPersonagens(zigueZagueGenerator.getEntities());
+
+    EntityGenerator<Caveira> caveiraGenerator = new EntityGenerator<Caveira>("skoot.png", Caveira.class, 10, 20);
+    fase.addAllPersonagens(caveiraGenerator.getEntities());
+
+    EntityGenerator<VerticalBouncer> vBouncerGenerator = new EntityGenerator<VerticalBouncer>("caveira.png",
+        VerticalBouncer.class, 10, 15);
+    fase.addAllPersonagens(vBouncerGenerator.getEntities());
+
+    EntityGenerator<HorizontalBouncer> hBouncerGenerator = new EntityGenerator<HorizontalBouncer>("caveira.png",
+        HorizontalBouncer.class, 10, 15);
+    fase.addAllPersonagens(hBouncerGenerator.getEntities());
+
+    EntityGenerator<Chaser> chaserGenerator = new EntityGenerator<Chaser>("chaser.png", Chaser.class, 3,
+        5);
+    fase.addAllPersonagens(chaserGenerator.getEntities());
+  }
+
+  private void assembleLevel4() {
+    this.hero.setPosicao(10, 10);
+    Level fase = GameControl.getLevel(4);
+
+    EntityGenerator<ZigueZague> zigueZagueGenerator = new EntityGenerator<ZigueZague>("robo.png", ZigueZague.class, 15,
+        25);
+    fase.addAllPersonagens(zigueZagueGenerator.getEntities());
+
+    EntityGenerator<HorizontalBouncer> hBouncerGenerator = new EntityGenerator<HorizontalBouncer>("roboPink.png",
+        HorizontalBouncer.class, 10, 20);
+    fase.addAllPersonagens(hBouncerGenerator.getEntities());
+
+    EntityGenerator<VerticalBouncer> vBouncerGenerator = new EntityGenerator<VerticalBouncer>("caveira.png",
+        VerticalBouncer.class, 10, 20);
+    fase.addAllPersonagens(vBouncerGenerator.getEntities());
+
+    EntityGenerator<Caveira> caveiraGenerator = new EntityGenerator<Caveira>("skoot.png", Caveira.class, 10, 20);
+    fase.addAllPersonagens(caveiraGenerator.getEntities());
+
+    EntityGenerator<Chaser> chaserGenerator = new EntityGenerator<Chaser>("chaser.png", Chaser.class, 5,
+        5);
+    fase.addAllPersonagens(chaserGenerator.getEntities());
   }
 
   public Graphics getGraphicsBuffer() {
