@@ -10,7 +10,7 @@ Um jogo onde você deve encontrar uma chave e uma porta que estão perdidos pelo
 - [X] Adicionar sistema de avançar fase (achar a chave da fase)
 - [X] Adicionar sistema de dano/UI de vida ao Heroi
 - [X] Reiniciar fase ao morrer (quando encostar em algum inimigo)
-- [ ] Salvar jogo na memoria
+- [X] Salvar jogo na memoria
 - [ ] Adicionar personagem ao jogo ao arrastar a classe dele ao jogo
 - [ ] Criar diagrama UML das classes e interfaces
 
