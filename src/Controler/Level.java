@@ -3,31 +3,33 @@ package Controler;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Auxiliar.EntityGenerator;
 import Auxiliar.Posicao;
-import Auxiliar.TreeGenerator;
 import Modelo.Entity;
 import Modelo.HealthPotion;
 import Modelo.Hero;
 import Modelo.Key;
+import Modelo.Tree;
 
 public class Level {
   private ArrayList<Entity> personagens = new ArrayList<Entity>();
   private Key keyEntity;
   private Posicao keyPosition;
   private GameControl gameControl;
-  private static final int HEALTH_POTIONS_COUNT = 5;
+  private static final int NUMBER_OF_HEALTH_POTIONS = 5;
+  private static final int NUMBER_OF_TREES = 500;
 
   public Level(Hero hero, GameControl gameControl) {
     this.gameControl = gameControl;
-    
+
     /* Gera a chave */
     this.keyEntity = createKeyEntity();
     this.addPersonagem(this.keyEntity);
-    
-    // Adiciona poções de cura aleatoriamente
-    addHealthPotions(Level.HEALTH_POTIONS_COUNT); // Adiciona 3 poções de cura por nível
+
+    this.personagens.addAll(this.generateTrees());
+    this.personagens.addAll(this.generateHealthPotions());
   }
-  
+
   public Key createKeyEntity() {
     this.keyPosition = this.genKeyPosition();
     Key key = new Key("key.png");
@@ -41,7 +43,16 @@ public class Level {
         personagens.remove(i);
       }
     }
-    addHealthPotions(Level.HEALTH_POTIONS_COUNT); // Adiciona 3 poções de cura por nível
+    this.personagens.addAll(this.generateHealthPotions());
+  }
+
+  public void restartLevel() {
+    for (int i = personagens.size() - 1; i >= 0; i--) {
+      personagens.get(i).setPositionToInitial();
+    }
+
+    this.restartKey();
+    this.restartHealthPotions();
   }
 
   public void restartKey() {
@@ -56,6 +67,10 @@ public class Level {
 
   public void addPersonagem(Entity personagem) {
     this.personagens.add(personagem);
+  }
+
+  public <T extends Entity>void addAllPersonagens(ArrayList<T> personagens) {
+    this.personagens.addAll(personagens);
   }
 
   public void removePersonagem(Entity personagem) {
@@ -73,49 +88,16 @@ public class Level {
     return this.gameControl.isValidPosition(personagens, entity);
   }
 
-  /**
-   * Adiciona árvores à fase
-   */
-  public void addTrees() {
-    TreeGenerator treeGenerator = new TreeGenerator();
-    treeGenerator.addTrees(this);
+  private ArrayList<Tree> generateTrees() {
+    EntityGenerator<Tree> treeGenerator = new EntityGenerator<Tree>("tree.png", Tree.class, NUMBER_OF_TREES, 2);
+    ArrayList<Tree> trees = treeGenerator.getEntities();
+    return trees;
   }
-  
-  /**
-   * Adiciona poções de cura em posições aleatórias do nível
-   * @param count Número de poções a serem adicionadas
-   */
-  private void addHealthPotions(int count) {
-    Random rand = new Random();
-    int potionsAdded = 0;
-    int maxAttempts = 100;
-    int attempts = 0;
-    
-    while (potionsAdded < count && attempts < maxAttempts) {
-      attempts++;
-      
-      // Gera uma posição aleatória
-      int linha = rand.nextInt(Auxiliar.Consts.MUNDO_ALTURA);
-      int coluna = rand.nextInt(Auxiliar.Consts.MUNDO_LARGURA);
-      
-      // Verifica se a posição não está ocupada
-      boolean positionOccupied = false;
-      for (Entity entity : personagens) {
-        if (entity.isSamePosition(linha, coluna)) {
-          positionOccupied = true;
-          break;
-        }
-      }
-      
-      // Se a posição estiver livre, adiciona a poção
-      if (!positionOccupied) {
-        HealthPotion potion = new HealthPotion("coracao.png");
-        potion.setPosicao(linha, coluna);
-        this.addPersonagem(potion);
-        potionsAdded++;
-      }
-    }
-    
-    System.out.println("Poções de cura adicionadas: " + potionsAdded);
+
+  private ArrayList<HealthPotion> generateHealthPotions() {
+    EntityGenerator<HealthPotion> healthPotionGenerator = new EntityGenerator<HealthPotion>("coracao.png",
+        HealthPotion.class, NUMBER_OF_HEALTH_POTIONS, 2);
+    ArrayList<HealthPotion> healthPotions = healthPotionGenerator.getEntities();
+    return healthPotions;
   }
 }

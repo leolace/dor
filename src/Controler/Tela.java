@@ -6,6 +6,7 @@ import Modelo.Chaser;
 import Modelo.HorizontalBouncer;
 import Auxiliar.Consts;
 import Auxiliar.Desenho;
+import Auxiliar.EntityGenerator;
 import Auxiliar.Imagem;
 import Modelo.VerticalBouncer;
 import Modelo.ZigueZague;
@@ -50,17 +51,18 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   private void assembleLevel1() {
     Level fase = GameControl.getLevel(0);
 
-    ZigueZague zigueZague = new ZigueZague("robo.png");
-    zigueZague.setPosicao(5, 15);
-    fase.addPersonagem(zigueZague);
+    EntityGenerator<ZigueZague> zigueZagueGenerator = new EntityGenerator<ZigueZague>("robo.png", ZigueZague.class, 10,
+        20);
+    fase.addAllPersonagens(zigueZagueGenerator.getEntities());
 
-    VerticalBouncer vBouncer = new VerticalBouncer("caveira.png");
-    vBouncer.setPosicao(25, 10);
-    fase.addPersonagem(vBouncer);
+    EntityGenerator<VerticalBouncer> vBouncerGenerator = new EntityGenerator<VerticalBouncer>("caveira.png", VerticalBouncer.class, 10,
+        15);
+    fase.addAllPersonagens(zigueZagueGenerator.getEntities());
+    fase.addAllPersonagens(vBouncerGenerator.getEntities());
 
-    Caveira bV = new Caveira("skoot.png");
-    bV.setPosicao(19, 1);
-    fase.addPersonagem(bV);
+    EntityGenerator<Caveira> caveiraGenerator = new EntityGenerator<Caveira>("skoot.png", Caveira.class, 10,
+        15);
+    fase.addAllPersonagens(caveiraGenerator.getEntities());
 
     Chaser chase = new Chaser("chaser.png");
     chase.setPosicao(20, 5);

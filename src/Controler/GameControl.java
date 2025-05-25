@@ -29,11 +29,6 @@ public class GameControl {
     GameControl.levels.add(new Level(hero, this));
     GameControl.levels.add(new Level(hero, this));
     GameControl.levels.add(new Level(hero, this));
-
-    // Adiciona árvores a todos os níveis
-    for (Level level : GameControl.levels) {
-      level.addTrees();
-    }
   }
 
   public static Level getLevel(int index) {
@@ -156,6 +151,7 @@ public class GameControl {
     this.updateCameraToHero();
 
     GameControl.getCurrentLevel().restartHealthPotions();
+    GameControl.getCurrentLevel().restartLevel();
     GameControl.getCurrentLevel().restartKey();
   }
 }

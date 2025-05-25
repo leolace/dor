@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 public abstract class Entity implements Serializable {
   protected ImageIcon iImage;
   protected Posicao position;
+  private Posicao initialPosition = null; /* Posição inicial do personagem */
   protected boolean isTransposable; /* Pode passar por cima? */
   protected boolean isMortal; /* Se encostar, morre? */
   protected boolean isDangerous; /* Pode se mover? */
@@ -43,6 +44,10 @@ public abstract class Entity implements Serializable {
     this.iImage = new ImageIcon(bi);
   }
 
+  public void setPositionToInitial() {
+    this.position.setPosicao(initialPosition.getLinha(), initialPosition.getColuna());
+  }
+
   public int getLinha() {
     return position.getLinha();
   }
@@ -70,6 +75,9 @@ public abstract class Entity implements Serializable {
   }
 
   public boolean setPosicao(int linha, int coluna) {
+    if (this.initialPosition == null) {
+      this.initialPosition = new Posicao(linha, coluna);
+    }
     return position.setPosicao(linha, coluna);
   }
 
