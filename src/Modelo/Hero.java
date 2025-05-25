@@ -134,6 +134,11 @@ public class Hero extends Entity {
   public boolean isInvincible() {
     return this.invincible;
   }
-
-
+  
+  /**
+   * Ressuscita o herói e restaura sua vida para o máximo
+   */
+  public void resurrect() {
+    this.health = this.maxHealth;
+  }
 }

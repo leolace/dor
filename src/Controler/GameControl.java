@@ -105,14 +105,14 @@ public class GameControl {
           HealthPotion potion = (HealthPotion) entity;
           hero.heal(potion.getHealAmount());
           personagens.remove(entity);
-        }
-
-        // Se for um inimigo ou obstáculo mortal, causa dano
+        }        // Se for um inimigo ou obstáculo mortal, causa dano
         if (entity.isDangerous()) {
           hero.takeDamage(50);
 
+          // Se não estiver vivo e não houver métodos visuais para notificar,
+          // simplesmente reinicia o nível
           if (!hero.isAlive()) {
-            this.restartLevel();
+            // Tratar a morte será responsabilidade da Tela
           }
         }
 
@@ -121,7 +121,7 @@ public class GameControl {
           personagens.remove(entity);
         }
       }
-
+      
       if (entity instanceof Chaser) {
         ((Chaser) entity).computeDirection(hero);
       }
@@ -145,10 +145,9 @@ public class GameControl {
   /**
    * Reinicia o nível atual
    * Reposiciona o herói e restaura sua vida
-   */
-  public void restartLevel() {
-    // Restaura a vida do herói
-    this.hero.heal(this.hero.getMaxHealth());
+   */  public void restartLevel() {
+    // Ressuscita o herói explicitamente
+    this.hero.resurrect();
 
     // Reposiciona o herói em uma posição inicial segura
     this.hero.setPosicao(10, 10);
