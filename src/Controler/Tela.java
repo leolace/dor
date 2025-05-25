@@ -8,6 +8,7 @@ import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import Auxiliar.EntityGenerator;
 import Auxiliar.Imagem;
+import Auxiliar.SaveGameData;
 import Modelo.VerticalBouncer;
 import Modelo.ZigueZague;
 import java.awt.Graphics;
@@ -23,7 +24,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   private Graphics g2;
   private GameControl gameControl;
   private boolean isDeathScreen = false; // Controla se está na tela de morte
-  private static final String DEATH_MESSAGE = "Você morreu! Pressione qualquer tecla para continuar...";
+  private static final String DEATH_MESSAGE = "Você morreu! Pressione a tecla [espaço] para continuar...";
+  private static SaveGameData saveGameData;
 
   public Tela() {
     initUiComponents();
@@ -43,7 +45,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     this.gameControl = new GameControl(this.hero);
 
     /* Ajusta a camera para a posição do personagem */
-    this.gameControl.updateCameraToHero();
+    GameControl.updateCameraToHero();
 
     /* Monta as fases */
     this.assembleLevel0();
@@ -51,6 +53,8 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     this.assembleLevel2();
     this.assembleLevel3();
     this.assembleLevel4();
+
+    saveGameData = new SaveGameData();
   }
 
   private void assembleLevel0() {
@@ -200,6 +204,11 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
       }
     }
 
+    // Desenha mensagens do sistema, se houver
+    if (saveGameData.showSystemMessage) {
+      saveGameData.drawSystemMessage(g2);
+    }
+
     g.dispose();
     g2.dispose();
     if (!getBufferStrategy().contentsLost()) {
@@ -241,13 +250,24 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
   public void keyPressed(KeyEvent e) {
     // Se estiver na tela de morte, qualquer tecla reinicia o jogo
-    if (this.isDeathScreen) {
+    if (this.isDeathScreen && e.getKeyCode() == KeyEvent.VK_SPACE) {
       // Ressuscita o herói explicitamente
       this.hero.resurrect();
       // Reinicia o nível
       this.gameControl.restartLevel();
       // Sai do estado de tela de morte
       this.isDeathScreen = false;
+      return;
+    }
+
+    // Verifica teclas especiais
+    if (e.getKeyCode() == KeyEvent.VK_S) {
+      // Salva o jogo
+      saveGameData.saveGame();
+      return;
+    } else if (e.getKeyCode() == KeyEvent.VK_L) {
+      // Carrega o jogo
+      saveGameData.loadGame();
       return;
     }
 
@@ -261,7 +281,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
       hero.moveRight();
     }
-    this.gameControl.updateCameraToHero();
+    GameControl.updateCameraToHero();
     this.setTitle("-> Cell: " + (hero.getColuna()) + ", "
         + (hero.getLinha()));
 

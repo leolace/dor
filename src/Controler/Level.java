@@ -1,5 +1,6 @@
 package Controler;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,7 +12,7 @@ import Modelo.Hero;
 import Modelo.Key;
 import Modelo.Tree;
 
-public class Level {
+public class Level implements Serializable {
   private ArrayList<Entity> personagens = new ArrayList<Entity>();
   private Key keyEntity;
   private Posicao keyPosition;

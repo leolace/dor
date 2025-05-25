@@ -5,20 +5,24 @@ import Modelo.Entity;
 import Modelo.Hero;
 import Modelo.Key;
 import Modelo.HealthPotion;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Auxiliar.Consts;
 import Auxiliar.Posicao;
 
-public class GameControl {
+public class GameControl implements Serializable {
   private static Posicao cameraPosition;
-  private Hero hero;
+  private static Hero hero;
   private static int currentLevelIndex = 0;
   private static ArrayList<Level> levels = new ArrayList<Level>();
 
-  public GameControl(Hero hero) {
+  // Versão da serialização para compatibilidade
+  private static final long serialVersionUID = 1L;
+
+  public GameControl(Hero heroo) {
+    hero = heroo;
     cameraPosition = new Posicao(hero.getLinha(), hero.getColuna());
-    this.hero = hero;
 
     this.assembleLevels();
   }
@@ -54,7 +58,7 @@ public class GameControl {
       return;
     }
     GameControl.currentLevelIndex++;
-    this.updateCameraToHero();
+    updateCameraToHero();
   }
 
   public static Posicao getCameraPosition() {
@@ -69,7 +73,7 @@ public class GameControl {
     GameControl.currentLevelIndex = index;
   }
 
-  public void updateCamera(Posicao posicao) {
+  public static void updateCamera(Posicao posicao) {
     int linha = posicao.getLinha();
     int coluna = posicao.getColuna();
 
@@ -79,8 +83,8 @@ public class GameControl {
     GameControl.cameraPosition = new Posicao(cameraLinha, cameraColuna);
   }
 
-  public void updateCameraToHero() {
-    this.updateCamera(new Posicao(this.hero.getLinha(), this.hero.getColuna()));
+  public static void updateCameraToHero() {
+    updateCamera(new Posicao(hero.getLinha(), hero.getColuna()));
   }
 
   public void desenhaTudo(ArrayList<Entity> personagens) {
@@ -105,7 +109,7 @@ public class GameControl {
           HealthPotion potion = (HealthPotion) entity;
           hero.heal(potion.getHealAmount());
           personagens.remove(entity);
-        }        // Se for um inimigo ou obstáculo mortal, causa dano
+        } // Se for um inimigo ou obstáculo mortal, causa dano
         if (entity.isDangerous()) {
           hero.takeDamage(50);
 
@@ -121,7 +125,7 @@ public class GameControl {
           personagens.remove(entity);
         }
       }
-      
+
       if (entity instanceof Chaser) {
         ((Chaser) entity).computeDirection(hero);
       }
@@ -145,18 +149,28 @@ public class GameControl {
   /**
    * Reinicia o nível atual
    * Reposiciona o herói e restaura sua vida
-   */  public void restartLevel() {
+   */
+  public void restartLevel() {
     // Ressuscita o herói explicitamente
-    this.hero.resurrect();
+    hero.resurrect();
 
     // Reposiciona o herói em uma posição inicial segura
-    this.hero.setPosicao(10, 10);
+    hero.setPosicao(10, 10);
 
     // Atualiza a câmera para a nova posição do herói
-    this.updateCameraToHero();
+    updateCameraToHero();
 
     GameControl.getCurrentLevel().restartHealthPotions();
     GameControl.getCurrentLevel().restartLevel();
     GameControl.getCurrentLevel().restartKey();
+  }
+
+  /**
+   * Retorna o objeto herói
+   * 
+   * @return O herói do jogo
+   */
+  public static Hero getHero() {
+    return hero;
   }
 }

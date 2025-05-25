@@ -138,4 +138,12 @@ public class Hero extends Entity {
   public void resurrect() {
     this.health = this.maxHealth;
   }
+  
+  /**
+   * Define a quantidade de saúde do herói
+   * @param health Nova quantidade de saúde
+   */
+  public void setHealth(int health) {
+    this.health = Math.min(health, this.maxHealth);
+  }
 }
