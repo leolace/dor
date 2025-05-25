@@ -33,7 +33,7 @@ public class EntityGenerator<T extends Entity> {
     int maxAttempts = 1000; // Limite máximo de tentativas para evitar loops infinitos
     int attempts = 0;
 
-    // Tentar criar o número especificado de árvores
+    // Tentar criar o número especificado de entidades
     while (entitiesCreated < this.numberOfEntities && attempts < maxAttempts) {
       attempts++;
 
@@ -41,9 +41,8 @@ public class EntityGenerator<T extends Entity> {
       int linha = rand.nextInt(Auxiliar.Consts.MUNDO_ALTURA);
       int coluna = rand.nextInt(Auxiliar.Consts.MUNDO_LARGURA);
 
-      // Verificar se a posição não está ocupada e se não há árvores próximas
       if (!isPositionOccupied(linha, coluna) && !hasNearbyEntity(linha, coluna)) {
-        // Criar a árvore
+        // Criar a entidade
         T entity = createEntity(linha, coluna);
         entities.add(entity);
 
@@ -51,14 +50,6 @@ public class EntityGenerator<T extends Entity> {
         entitiesCreated++;
       }
     }
-
-    // Remover as árvores adicionadas à lista de entidades
-    // para que apenas a classe Level se encarregue de adicionar as entidades ao
-    // jogo
-    // for (Entity entity : entities) {
-    // levelPersonagens.remove(entity);
-    // }
-
     return entities;
   }
 
@@ -89,11 +80,11 @@ public class EntityGenerator<T extends Entity> {
   }
 
   /**
-   * Verifica se existe uma árvore próxima dentro do espaçamento mínimo
+   * Verifica se existe uma entidade próxima dentro do espaçamento mínimo
    * 
    * @param linha  linha a ser verificada
    * @param coluna coluna a ser verificada
-   * @return true se existir uma árvore próxima, false caso contrário
+   * @return true se existir uma entidade próxima, false caso contrário
    */
   private boolean hasNearbyEntity(int linha, int coluna) {
     for (T entity : entities) {

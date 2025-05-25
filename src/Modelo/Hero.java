@@ -27,9 +27,6 @@ public class Hero extends Entity {
     return true;
   }
 
-  /*
-   * TO-DO: este metodo pode ser interessante a todos os personagens que se movem
-   */
   private boolean validaPosicao() {
     if (!GameControl.getCurrentLevel().isLevelValidPosition(this)) {
       this.voltaAUltimaPosicao();
