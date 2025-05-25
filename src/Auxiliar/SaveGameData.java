@@ -34,30 +34,24 @@ public class SaveGameData implements Serializable {
   public final int heroHealth;
   public final int levelIndex;
 
-  public SaveGameData() {
+  public SaveGameData(Hero heroo) {
     // Obter o herói diretamente do GameControl
-    Hero hero = GameControl.getHero();
-    if (hero != null) {
-      this.heroLinha = hero.getLinha();
-      this.heroColuna = hero.getColuna();
-      this.heroHealth = hero.getHealth();
-    } else {
-      // Valores padrão se o herói não estiver disponível
-      this.heroLinha = 10;
-      this.heroColuna = 10;
-      this.heroHealth = 100;
-    }
+    Hero hero = heroo;
+    this.heroLinha = hero.getLinha();
+    this.heroColuna = hero.getColuna();
+    this.heroHealth = hero.getHealth();
+
     this.levelIndex = GameControl.getCurrentLevelIndex();
   }
 
   /**
    * Salva o estado atual do jogo em um arquivo
    */
-  public void saveGame() {
+  public void saveGame(Hero heroo) {
     try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(SAVE_FILE))) {
       // Cria um objeto que contém todos os dados necessários para recuperar o estado
       // do jogo
-      SaveGameData saveData = new SaveGameData();
+      SaveGameData saveData = new SaveGameData(heroo);
 
       // Salva os dados
       outputStream.writeObject(saveData);

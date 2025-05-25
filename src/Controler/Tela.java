@@ -5,6 +5,7 @@ import Modelo.Hero;
 import Modelo.Chaser;
 import Modelo.HorizontalBouncer;
 import Auxiliar.Consts;
+import Auxiliar.DeathScreen;
 import Auxiliar.Desenho;
 import Auxiliar.EntityGenerator;
 import Auxiliar.Imagem;
@@ -23,8 +24,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   private Hero hero;
   private Graphics g2;
   private GameControl gameControl;
-  private boolean isDeathScreen = false; // Controla se está na tela de morte
-  private static final String DEATH_MESSAGE = "Você morreu! Pressione a tecla [espaço] para continuar...";
+  private DeathScreen deathScreen; // Classe dedicada para gerenciar a tela de morte
   private static SaveGameData saveGameData;
 
   public Tela() {
@@ -40,6 +40,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     /* Cria o heroi */
     this.hero = new Hero("hero.png");
     this.hero.setPosicao(10, 10);
+    
+    /* Inicializa a tela de morte */
+    this.deathScreen = new DeathScreen();
 
     /* Inicia o game controller */
     this.gameControl = new GameControl(this.hero);
@@ -54,7 +57,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     this.assembleLevel3();
     this.assembleLevel4();
 
-    saveGameData = new SaveGameData();
+    saveGameData = new SaveGameData(this.hero);
   }
 
   private void assembleLevel0() {
@@ -182,14 +185,14 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
 
     // Verifica se o jogador está morto e ainda não está na tela de morte
-    if (!hero.isAlive() && !this.isDeathScreen) {
+    if (!hero.isAlive() && !this.deathScreen.isActive()) {
       // Define que estamos na tela de morte
-      this.isDeathScreen = true;
+      this.deathScreen.activate();
     }
 
     // Se estiver na tela de morte, desenha a mensagem
-    if (this.isDeathScreen) {
-      drawDeathScreen(g2);
+    if (this.deathScreen.isActive()) {
+      this.deathScreen.draw(g2);
     } else {
       // Desenho normal do jogo quando o jogador está vivo
       Level currentLevel = GameControl.getCurrentLevel();
@@ -216,28 +219,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     }
   }
 
-  /**
-   * Desenha a tela de morte com mensagem para o jogador
-   * 
-   * @param g objeto Graphics para desenho
-   */
-  private void drawDeathScreen(Graphics g) {
-    // Fundo escuro semi-transparente apenas para a área do jogo
-    g.setColor(new java.awt.Color(0, 0, 0, 200));
-    g.fillRect(0, 0, Consts.RES_X * Consts.CELL_SIDE, Consts.RES_Y * Consts.CELL_SIDE);
-
-    // Desenha a mensagem de morte
-    g.setColor(java.awt.Color.RED);
-    g.setFont(g.getFont().deriveFont(30f).deriveFont(java.awt.Font.BOLD));
-    
-    // Centraliza a mensagem na área do jogo
-    java.awt.FontMetrics metrics = g.getFontMetrics();
-    int x = (Consts.RES_X * Consts.CELL_SIDE - metrics.stringWidth(DEATH_MESSAGE)) / 2;
-    int y = (Consts.RES_Y * Consts.CELL_SIDE) / 2;
-    
-    g.drawString(DEATH_MESSAGE, x, y);
-  }
-
   public void go() {
     TimerTask task = new TimerTask() {
       public void run() {
@@ -249,21 +230,21 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   }
 
   public void keyPressed(KeyEvent e) {
-    // Se estiver na tela de morte, qualquer tecla reinicia o jogo
-    if (this.isDeathScreen && e.getKeyCode() == KeyEvent.VK_SPACE) {
+    // Se estiver na tela de morte, a tecla espaço reinicia o jogo
+    if (this.deathScreen.isActive() && e.getKeyCode() == KeyEvent.VK_SPACE) {
       // Ressuscita o herói explicitamente
       this.hero.resurrect();
       // Reinicia o nível
       this.gameControl.restartLevel();
       // Sai do estado de tela de morte
-      this.isDeathScreen = false;
+      this.deathScreen.deactivate();
       return;
     }
 
     // Verifica teclas especiais
     if (e.getKeyCode() == KeyEvent.VK_S) {
       // Salva o jogo
-      saveGameData.saveGame();
+      saveGameData.saveGame(this.hero);
       return;
     } else if (e.getKeyCode() == KeyEvent.VK_L) {
       // Carrega o jogo
@@ -381,23 +362,5 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     // Mostra o valor numérico da vida
     g.setColor(java.awt.Color.BLACK);
     g.drawString(hero.getHealth() + "/" + hero.getMaxHealth(), healthBarX + healthBarWidth / 2 - 15, healthBarY + 15);
-  }
-
-  /**
-   * Define se a tela de morte deve ser exibida
-   * 
-   * @param isDeathScreen true para mostrar a tela de morte, false para desabilitar
-   */
-  public void setDeathScreen(boolean isDeathScreen) {
-    this.isDeathScreen = isDeathScreen;
-  }
-
-  /**
-   * Verifica se a tela de morte está sendo exibida
-   * 
-   * @return true se estiver na tela de morte, false caso contrário
-   */
-  public boolean isDeathScreen() {
-    return this.isDeathScreen;
   }
 }
