@@ -10,6 +10,7 @@ import Auxiliar.Desenho;
 import Auxiliar.EntityGenerator;
 import Auxiliar.Imagem;
 import Auxiliar.SaveGameData;
+import Auxiliar.WinScreen;
 import Modelo.VerticalBouncer;
 import Modelo.ZigueZague;
 import java.awt.Graphics;
@@ -25,6 +26,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   private Graphics g2;
   private GameControl gameControl;
   private DeathScreen deathScreen; // Classe dedicada para gerenciar a tela de morte
+  private WinScreen winScreen;
   private static SaveGameData saveGameData;
 
   public Tela() {
@@ -43,6 +45,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     
     /* Inicializa a tela de morte */
     this.deathScreen = new DeathScreen();
+    this.winScreen = new WinScreen();
 
     /* Inicia o game controller */
     this.gameControl = new GameControl(this.hero);
@@ -193,7 +196,10 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     // Se estiver na tela de morte, desenha a mensagem
     if (this.deathScreen.isActive()) {
       this.deathScreen.draw(g2);
-    } else {
+    } else if (GameControl.isGameWon) {
+      this.winScreen.draw(g2);
+    }
+    else {
       // Desenho normal do jogo quando o jogador está vivo
       Level currentLevel = GameControl.getCurrentLevel();
       if (!currentLevel.getPersonagens().isEmpty()) {
@@ -204,6 +210,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         // Desenha a barra de vida
         this.drawHealthBar(g2);
         this.drawLevelIndicator(g2);
+        this.drawMissionText(g2);
       }
     }
 
@@ -362,5 +369,32 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     // Mostra o valor numérico da vida
     g.setColor(java.awt.Color.BLACK);
     g.drawString(hero.getHealth() + "/" + hero.getMaxHealth(), healthBarX + healthBarWidth / 2 - 15, healthBarY + 15);
+  }
+
+  /**
+   * Desenha o texto da missão na tela
+   * 
+   * @param g objeto Graphics para desenho
+   */
+  private void drawMissionText(Graphics g) {
+    String missionText = "Missão: Encontre a chave para avançar de fase";
+    
+    // Configura a fonte e a cor
+    g.setFont(g.getFont().deriveFont(16f).deriveFont(java.awt.Font.BOLD));
+    
+    // Desenha um fundo semi-transparente para melhor legibilidade
+    java.awt.FontMetrics metrics = g.getFontMetrics();
+    int textWidth = metrics.stringWidth(missionText);
+    int textHeight = metrics.getHeight();
+    
+    int x = 15;
+    int y = 55; // Posicionado abaixo da barra de vida
+    
+    g.setColor(new java.awt.Color(0, 0, 0, 150));
+    g.fillRect(x - 5, y - textHeight, textWidth + 10, textHeight + 10);
+    
+    // Desenha o texto da missão
+    g.setColor(java.awt.Color.YELLOW);
+    g.drawString(missionText, x, y);
   }
 }

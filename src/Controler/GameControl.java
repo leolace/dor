@@ -16,6 +16,7 @@ public class GameControl implements Serializable {
   private static Hero hero;
   private static int currentLevelIndex = 0;
   private static ArrayList<Level> levels = new ArrayList<Level>();
+  public static boolean isGameWon = false;
 
   // Versão da serialização para compatibilidade
   private static final long serialVersionUID = 1L;
@@ -43,6 +44,10 @@ public class GameControl implements Serializable {
     }
 
     return levels.get(index);
+  }
+
+  public static boolean isLastLevel() {
+    return currentLevelIndex == levels.size() - 1;
   }
 
   public static ArrayList<Level> getLevels() {
@@ -101,6 +106,11 @@ public class GameControl implements Serializable {
       if (hero.isSamePosition(entity.getLinha(), entity.getColuna())) {
         // Se o herói colidir com a chave, avança para o próximo nível
         if (entity instanceof Key) {
+          if (GameControl.isLastLevel()) {
+            // aparecer tela de ganhou
+            GameControl.isGameWon = true;
+          }
+
           this.nextLevel();
         }
 
