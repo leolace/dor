@@ -10,47 +10,10 @@ import java.io.Serializable;
  * Classe responsável por controlar e desenhar a tela de vitória do jogo
  */
 public class WinScreen implements Serializable {
-  private boolean isActive = false;
   private static final String WIN_MESSAGE = "Você ganhou!";
   private static final String CREATORS_MESSAGE = "Criado por: Leonardo Gonsalez e Rafael Auada";
 
-  /**
-   * Construtor padrão da tela de vitória
-   */
-  public WinScreen() {
-    // Inicializa no estado inativo
-    this.isActive = false;
-  }
-
-  /**
-   * Ativa a tela de vitória
-   */
-  public void activate() {
-    this.isActive = true;
-  }
-
-  /**
-   * Desativa a tela de vitória
-   */
-  public void deactivate() {
-    this.isActive = false;
-  }
-
-  /**
-   * Verifica se a tela de vitória está ativa
-   * 
-   * @return true se estiver ativa, false caso contrário
-   */
-  public boolean isActive() {
-    return this.isActive;
-  }
-
-  /**
-   * Desenha a tela de vitória
-   * 
-   * @param g Contexto gráfico para desenho
-   */
-  public void draw(Graphics g) {
+  public static void draw(Graphics g) {
     // Fundo escuro semi-transparente apenas para a área do jogo
     g.setColor(new Color(0, 0, 0, 200));
     g.fillRect(0, 0, Consts.RES_X * Consts.CELL_SIDE, Consts.RES_Y * Consts.CELL_SIDE);

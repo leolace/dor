@@ -63,6 +63,8 @@ public class GameControl implements Serializable {
       return;
     }
     GameControl.currentLevelIndex++;
+    GameControl.hero.heal(GameControl.hero.getMaxHealth());
+    GameControl.hero.setRandomPosition();
     updateCameraToHero();
   }
 
@@ -119,7 +121,9 @@ public class GameControl implements Serializable {
           HealthPotion potion = (HealthPotion) entity;
           hero.heal(potion.getHealAmount());
           personagens.remove(entity);
-        } // Se for um inimigo ou obstáculo mortal, causa dano
+        }
+
+        // Se for um inimigo ou obstáculo mortal, causa dano
         if (entity.isDangerous()) {
           hero.takeDamage(50);
 
@@ -137,10 +141,9 @@ public class GameControl implements Serializable {
       }
 
       if (entity instanceof Chaser) {
-        ((Chaser) entity).computeDirection(hero);
+        ((Chaser) entity).computeDirection();
       }
     }
-
   }
 
   /*

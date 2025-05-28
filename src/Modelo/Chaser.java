@@ -1,8 +1,11 @@
 package Modelo;
 
+import Controler.GameControl;
+
 public class Chaser extends Entity {
   private boolean iDirectionV;
   private boolean iDirectionH;
+
   public Chaser(String filename) {
     super(filename);
     iDirectionV = true;
@@ -11,10 +14,12 @@ public class Chaser extends Entity {
     this.isTransposable = true;
     this.isMortal = false;
 
-    setMovementDelay(15);
+    setMovementDelay(10);
   }
 
-  public void computeDirection(Hero hero) {
+  public void computeDirection() {
+    Hero hero = GameControl.getHero();
+
     if (hero.getColuna() < this.getColuna()) {
       iDirectionH = true;
     } else if (hero.getColuna() > this.getColuna()) {
@@ -29,15 +34,28 @@ public class Chaser extends Entity {
 
   @Override
   protected void movement() {
-    if (iDirectionH) {
-      this.moveLeft();
-    } else {
-      this.moveRight();
+
+    // Verifica se está na mesma linha ou coluna que o herói
+    Hero hero = GameControl.getHero();
+
+    int deltaX = Math.abs(hero.getColuna() - this.getColuna());
+    int deltaY = Math.abs(hero.getLinha() - this.getLinha());
+
+    // Se a distância horizontal for maior, move horizontalmente
+    if (deltaX > deltaY) {
+      if (iDirectionH) {
+        this.moveLeft();
+      } else {
+        this.moveRight();
+      }
     }
-    if (iDirectionV) {
-      this.moveUp();
-    } else {
-      this.moveDown();
+    // Caso contrário, move verticalmente
+    else {
+      if (iDirectionV) {
+        this.moveUp();
+      } else {
+        this.moveDown();
+      }
     }
   }
 

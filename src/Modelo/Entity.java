@@ -4,8 +4,12 @@ import Auxiliar.Consts;
 import Auxiliar.Desenho;
 import Auxiliar.Imagem;
 import Auxiliar.Posicao;
+import Controler.GameControl;
+
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 
 public abstract class Entity implements Serializable {
@@ -46,6 +50,41 @@ public abstract class Entity implements Serializable {
 
   public void setPositionToInitial() {
     this.position.setPosicao(initialPosition.getLinha(), initialPosition.getColuna());
+  }
+
+  public void setRandomPosition() {
+    int attempts = 0;
+    int maxAttempts = 1000;
+    Random rand = new Random();
+
+    while (attempts < maxAttempts) {
+      attempts++;
+
+      // Gerar posição aleatória
+      int linha = rand.nextInt(Auxiliar.Consts.MUNDO_ALTURA);
+      int coluna = rand.nextInt(Auxiliar.Consts.MUNDO_LARGURA);
+
+      if (!isPositionOccupied(linha, coluna)) {
+        this.setPosicao(linha, coluna);
+        break;
+      }
+    }
+  }
+
+  /**
+   * Verifica se uma posição já está ocupada por alguma entidade
+   * 
+   * @param linha  linha a ser verificada
+   * @param coluna coluna a ser verificada
+   * @return true se a posição estiver ocupada, false caso contrário
+   */
+  private boolean isPositionOccupied(int linha, int coluna) {
+    for (Entity entity : GameControl.getCurrentLevel().getPersonagens()) {
+      if (entity.isSamePosition(linha, coluna)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public int getLinha() {
