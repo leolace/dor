@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Random;
 
 /**
  * Classe responsável por carregar dinamicamente classes de entidades
