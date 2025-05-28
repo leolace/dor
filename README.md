@@ -11,7 +11,7 @@ Um jogo onde você deve encontrar uma chave e uma porta que estão perdidos pelo
 - [X] Adicionar sistema de dano/UI de vida ao Heroi
 - [X] Reiniciar fase ao morrer (quando encostar em algum inimigo)
 - [X] Salvar jogo na memoria
-- [ ] Adicionar personagem ao jogo ao arrastar a classe dele ao jogo
+- [X] Adicionar personagem ao jogo ao arrastar a classe dele ao jogo
 - [ ] Mudar skin do herio e dos inimigos
 - [ ] Adicionar musica/sons ao jogo
 - [ ] Criar diagrama UML das classes e interfaces

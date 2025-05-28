@@ -5,7 +5,7 @@ public class HorizontalBouncer extends Entity {
   private int movementCounter = 0;
 
   public HorizontalBouncer(String filename) {
-    super(filename);
+    super("roboPink.png");
     this.setMovementDelay(10);
     this.isTransposable = true; // Não pode atravessar
     this.isMortal = false;

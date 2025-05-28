@@ -4,7 +4,7 @@ public class VerticalBouncer extends Entity {
   boolean bUp;
   private int movementCounter = 0;
   public VerticalBouncer(String filename) {
-    super(filename);
+    super("robo.png");
     bUp = true;
     this.isTransposable = true;
     this.isMortal = false;

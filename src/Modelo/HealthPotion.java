@@ -11,7 +11,7 @@ public class HealthPotion extends Entity {
      * @param filename Nome do arquivo de imagem
      */
     public HealthPotion(String filename) {
-        super(filename);
+        super("coracao.png");
         this.isTransposable = true; // Pode ser coletado/atravessado
         this.isMortal = false; // Não causa dano
         this.isDangerous = false; // Não é perigoso

@@ -11,7 +11,7 @@ public class Fogo extends Entity {
   private Direction direction;
 
   public Fogo(String filename) {
-    super(filename);
+    super("fire.png");
     this.isMortal = true;
     this.isTransposable = true;
     this.isDangerous = true;

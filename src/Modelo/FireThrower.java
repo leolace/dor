@@ -4,12 +4,12 @@ import Auxiliar.Consts;
 import Controler.GameControl;
 import java.util.Random;
 
-public class Caveira extends Entity {
+public class FireThrower extends Entity {
   private int iContaIntervalos;
   private Random random;
   
-  public Caveira(String filename) {
-    super(filename);
+  public FireThrower(String filename) {
+    super("skoot.png");
     this.isTransposable = true;
     this.isMortal = false; // Causa dano ao herói
     this.isDangerous = true; // Causa dano ao herói

@@ -2,7 +2,7 @@ package Modelo;
 
 public class Tree extends Entity {
     public Tree(String filename) {
-        super(filename);
+        super("tree.png");
         this.isTransposable = false; // Não pode passar através da árvore
         this.isMortal = false;
         this.isDangerous = false;

@@ -1,19 +1,31 @@
 package Controler;
 
+import Modelo.Entity;
 import Modelo.Hero;
 import Auxiliar.Consts;
 import Auxiliar.DeathScreen;
 import Auxiliar.Desenho;
+import Auxiliar.EntityLoader;
 import Auxiliar.Imagem;
 import Auxiliar.LevelsFactory;
 import Auxiliar.SaveGameData;
 import Auxiliar.UIComponents;
 import Auxiliar.WinScreen;
 import java.awt.Graphics;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -52,6 +64,9 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
     levelsFactory.assembleLevel(4);
 
     saveGameData = new SaveGameData(this.hero);
+    
+    /* Configura o suporte a drag and drop */
+    configureDragAndDrop();
   }
 
 
@@ -199,5 +214,67 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
   }
 
   public void keyReleased(KeyEvent e) {
+  }
+
+  /**
+   * Configura o suporte a drag and drop para permitir arrastar arquivos para o jogo
+   */
+  private void configureDragAndDrop() {
+    // Criar um DropTarget que aceita arquivos arrastados
+    new DropTarget(this, new DropTargetAdapter() {
+      @Override
+      public void drop(DropTargetDropEvent event) {
+        try {
+          // Aceitar o drop
+          event.acceptDrop(DnDConstants.ACTION_COPY);
+          
+          // Obter a lista de arquivos arrastados
+          Transferable transferable = event.getTransferable();
+          @SuppressWarnings("unchecked")
+          List<File> files = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
+          
+          // Processar cada arquivo
+          for (File file : files) {
+            processDroppedFile(file);
+          }
+          
+          // Informar que a operação foi concluída com sucesso
+          event.dropComplete(true);
+          
+        } catch (UnsupportedFlavorException | IOException e) {
+          e.printStackTrace();
+          event.dropComplete(false);
+        }
+      }
+    });
+  }
+  
+  /**
+   * Processa um arquivo arrastado para o jogo
+   * 
+   * @param file O arquivo arrastado
+   */
+  private void processDroppedFile(File file) {
+    // Verificar se é um arquivo de classe ou fonte Java
+    String fileName = file.getName().toLowerCase();
+    if (!fileName.endsWith(".class") && !fileName.endsWith(".java")) {
+      System.out.println("Arquivo não suportado: " + fileName);
+      return;
+    }
+    
+    // Carregar a entidade do arquivo
+    Entity entity = EntityLoader.loadEntityFromFile(file);
+    if (entity != null) {
+      // Adicionar a entidade ao nível atual
+      GameControl.getCurrentLevel().addPersonagem(entity);
+      
+      // Mostrar mensagem de sucesso
+      System.out.println("Entidade " + fileName + " adicionada ao jogo com sucesso!");
+      
+      // Opcional: exibir mensagem na tela do jogo
+      if (saveGameData != null) {
+        saveGameData.showSystemMessage("Entidade " + fileName.replace(".class", "").replace(".java", "") + " adicionada!");
+      }
+    }
   }
 }

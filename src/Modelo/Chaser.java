@@ -7,7 +7,7 @@ public class Chaser extends Entity {
   private boolean iDirectionH;
 
   public Chaser(String filename) {
-    super(filename);
+    super("chaser.png");
     iDirectionV = true;
     iDirectionH = true;
 

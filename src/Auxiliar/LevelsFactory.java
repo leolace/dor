@@ -2,7 +2,7 @@ package Auxiliar;
 
 import Controler.GameControl;
 import Controler.Level;
-import Modelo.Caveira;
+import Modelo.FireThrower;
 import Modelo.Chaser;
 import Modelo.HorizontalBouncer;
 import Modelo.VerticalBouncer;
@@ -46,7 +46,7 @@ public class LevelsFactory {
     fase.addAllPersonagens(vBouncerGenerator.getEntities());
 
     // Inimigos Caveira
-    EntityGenerator<Caveira> caveiraGenerator = new EntityGenerator<Caveira>("skoot.png", Caveira.class, 7, 12);
+    EntityGenerator<FireThrower> caveiraGenerator = new EntityGenerator<FireThrower>("skoot.png", FireThrower.class, 7, 12);
     fase.addAllPersonagens(caveiraGenerator.getEntities());
 
     return fase;
@@ -63,7 +63,7 @@ public class LevelsFactory {
         VerticalBouncer.class, 5, 12);
     fase.addAllPersonagens(vBouncerGenerator.getEntities());
 
-    EntityGenerator<Caveira> caveiraGenerator = new EntityGenerator<Caveira>("skoot.png", Caveira.class, 5, 12);
+    EntityGenerator<FireThrower> caveiraGenerator = new EntityGenerator<FireThrower>("skoot.png", FireThrower.class, 5, 12);
     fase.addAllPersonagens(caveiraGenerator.getEntities());
 
     EntityGenerator<Chaser> chaserGenerator = new EntityGenerator<Chaser>("chaser.png", Chaser.class, 1,
@@ -84,7 +84,7 @@ public class LevelsFactory {
         5);
     fase.addAllPersonagens(chaserGenerator.getEntities());
 
-    EntityGenerator<Caveira> caveiraGenerator = new EntityGenerator<Caveira>("skoot.png", Caveira.class, 10, 12);
+    EntityGenerator<FireThrower> caveiraGenerator = new EntityGenerator<FireThrower>("skoot.png", FireThrower.class, 10, 12);
     fase.addAllPersonagens(caveiraGenerator.getEntities());
 
     return fase;
@@ -97,7 +97,7 @@ public class LevelsFactory {
         10);
     fase.addAllPersonagens(zigueZagueGenerator.getEntities());
 
-    EntityGenerator<Caveira> caveiraGenerator = new EntityGenerator<Caveira>("skoot.png", Caveira.class, 10, 20);
+    EntityGenerator<FireThrower> caveiraGenerator = new EntityGenerator<FireThrower>("skoot.png", FireThrower.class, 10, 20);
     fase.addAllPersonagens(caveiraGenerator.getEntities());
 
     EntityGenerator<VerticalBouncer> vBouncerGenerator = new EntityGenerator<VerticalBouncer>("caveira.png",
@@ -130,7 +130,7 @@ public class LevelsFactory {
         VerticalBouncer.class, 10, 20);
     fase.addAllPersonagens(vBouncerGenerator.getEntities());
 
-    EntityGenerator<Caveira> caveiraGenerator = new EntityGenerator<Caveira>("skoot.png", Caveira.class, 10, 20);
+    EntityGenerator<FireThrower> caveiraGenerator = new EntityGenerator<FireThrower>("skoot.png", FireThrower.class, 10, 20);
     fase.addAllPersonagens(caveiraGenerator.getEntities());
 
     EntityGenerator<Chaser> chaserGenerator = new EntityGenerator<Chaser>("chaser.png", Chaser.class, 5,
