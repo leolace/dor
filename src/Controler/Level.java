@@ -33,7 +33,7 @@ public class Level implements Serializable {
 
   public Key createKeyEntity() {
     this.keyPosition = this.genKeyPosition();
-    Key key = new Key("key.png");
+    Key key = new Key();
     key.setPosicao(this.keyPosition.getLinha(), this.keyPosition.getColuna());
     return key;
   }
@@ -74,7 +74,7 @@ public class Level implements Serializable {
     this.personagens.add(personagem);
   }
 
-  public <T extends Entity>void addAllPersonagens(ArrayList<T> personagens) {
+  public <T extends Entity> void addAllPersonagens(ArrayList<T> personagens) {
     this.personagens.addAll(personagens);
   }
 
@@ -94,13 +94,13 @@ public class Level implements Serializable {
   }
 
   private ArrayList<Tree> generateTrees() {
-    EntityGenerator<Tree> treeGenerator = new EntityGenerator<Tree>("tree.png", Tree.class, NUMBER_OF_TREES, 2);
+    EntityGenerator<Tree> treeGenerator = new EntityGenerator<Tree>(Tree.class, NUMBER_OF_TREES, 2);
     ArrayList<Tree> trees = treeGenerator.getEntities();
     return trees;
   }
 
   private ArrayList<HealthPotion> generateHealthPotions() {
-    EntityGenerator<HealthPotion> healthPotionGenerator = new EntityGenerator<HealthPotion>("coracao.png",
+    EntityGenerator<HealthPotion> healthPotionGenerator = new EntityGenerator<HealthPotion>(
         HealthPotion.class, NUMBER_OF_HEALTH_POTIONS, 2);
     ArrayList<HealthPotion> healthPotions = healthPotionGenerator.getEntities();
     return healthPotions;

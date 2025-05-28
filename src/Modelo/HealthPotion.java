@@ -10,7 +10,7 @@ public class HealthPotion extends Entity {
      * Construtor da poção de cura
      * @param filename Nome do arquivo de imagem
      */
-    public HealthPotion(String filename) {
+    public HealthPotion() {
         super("coracao.png");
         this.isTransposable = true; // Pode ser coletado/atravessado
         this.isMortal = false; // Não causa dano

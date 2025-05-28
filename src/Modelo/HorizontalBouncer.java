@@ -4,7 +4,7 @@ public class HorizontalBouncer extends Entity {
   private boolean isMovingRight = true;
   private int movementCounter = 0;
 
-  public HorizontalBouncer(String filename) {
+  public HorizontalBouncer() {
     super("roboPink.png");
     this.setMovementDelay(10);
     this.isTransposable = true; // Não pode atravessar

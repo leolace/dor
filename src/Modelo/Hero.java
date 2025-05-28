@@ -9,7 +9,7 @@ public class Hero extends Entity {
   private int invincibilityFrames;
   private int currentInvincibilityFrames;
   
-  public Hero(String filename) {
+  public Hero() {
     super("hero.png");
     this.maxHealth = 100;
     this.health = this.maxHealth;

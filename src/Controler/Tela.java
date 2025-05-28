@@ -46,7 +46,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
         Consts.RES_Y * Consts.CELL_SIDE + getInsets().top + getInsets().bottom);
 
     /* Cria o heroi */
-    this.hero = new Hero("hero.png");
+    this.hero = new Hero();
     this.hero.setPosicao(10, 10);
 
     /* Inicia o game controller */

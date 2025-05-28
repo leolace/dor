@@ -65,7 +65,7 @@ public class EntityLoader {
         }
         
         // Criar uma instância com construtor que aceita String (nome do arquivo de imagem)
-        Constructor<?> constructor = entityClass.getConstructor(String.class);
+        Constructor<?> constructor = entityClass.getConstructor();
         Entity entity = (Entity) constructor.newInstance();
         
         // Definir uma posição aleatória

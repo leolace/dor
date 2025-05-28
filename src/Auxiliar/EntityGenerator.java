@@ -11,15 +11,12 @@ public class EntityGenerator<T extends Entity> {
   private int minDistance;
   private ArrayList<T> entities = new ArrayList<T>();
   private Class<T> EntityClass;
-  private String filename;
 
-  public EntityGenerator(String filename, Class<T> entityClass, int numberOfEntities, int minDistance) {
+  public EntityGenerator(Class<T> entityClass, int numberOfEntities, int minDistance) {
     this.numberOfEntities = numberOfEntities;
     this.rand = new Random();
     this.minDistance = minDistance;
     this.EntityClass = entityClass;
-    this.filename = filename;
-
     this.entities = this.generateEntities();
   }
 
@@ -55,7 +52,7 @@ public class EntityGenerator<T extends Entity> {
 
   private T createEntity(int linha, int coluna) {
     try {
-      T entity = EntityClass.getConstructor(String.class).newInstance(this.filename);
+      T entity = EntityClass.getConstructor().newInstance();
       entity.setPosicao(linha, coluna);
       return entity;
     } catch (Exception e) {

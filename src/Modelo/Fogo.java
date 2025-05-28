@@ -1,33 +1,36 @@
 package Modelo;
 
+import java.util.Random;
+
 import Controler.GameControl;
 
 public class Fogo extends Entity {
-  // Enumeração para as direções possíveis do fogo
   public enum Direction {
     UP, RIGHT, DOWN, LEFT
   }
-  
-  private Direction direction;
+  private Random random = new Random();
+  public Direction direction;
 
-  public Fogo(String filename) {
+  public Fogo() {
     super("fire.png");
     this.isMortal = true;
     this.isTransposable = true;
     this.isDangerous = true;
     this.setMovementDelay(3);
-    this.direction = Direction.RIGHT; // Direção padrão é para direita
+    this.direction = getRandomDirection(); // Direção padrão é para direita
   }
-  
-  public Fogo(String filename, Direction direction) {
-    this(filename);
-    this.direction = direction;
+
+
+  // Método para escolher uma direção aleatória
+  private Fogo.Direction getRandomDirection() {
+    Fogo.Direction[] directions = Fogo.Direction.values();
+    return directions[random.nextInt(directions.length)];
   }
 
   @Override
   protected void movement() {
     boolean movementSuccess = false;
-    
+
     // Move na direção especificada
     switch (this.direction) {
       case UP:
@@ -43,7 +46,7 @@ public class Fogo extends Entity {
         movementSuccess = this.moveLeft();
         break;
     }
-    
+
     // Se não conseguir mover, remove o fogo
     if (!movementSuccess) {
       GameControl.getCurrentLevel().removePersonagem(this);
