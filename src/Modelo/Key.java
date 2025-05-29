@@ -10,7 +10,7 @@ public class Key extends Entity {
   }
 
   @Override
-  protected void movement() {
-    return;
+  public void movement() {
+
   }
 }

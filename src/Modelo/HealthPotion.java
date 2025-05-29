@@ -39,7 +39,7 @@ public class HealthPotion extends Entity {
     }
     
     @Override
-    protected void movement() {
+    public void movement() {
         // Items de cura não se movem
         return;
     }

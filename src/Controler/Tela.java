@@ -2,15 +2,14 @@ package Controler;
 
 import Modelo.Entity;
 import Modelo.Hero;
+import Screens.DeathScreen;
+import Screens.WinScreen;
 import Auxiliar.Consts;
-import Auxiliar.DeathScreen;
-import Auxiliar.Desenho;
+import Auxiliar.Drawer;
 import Auxiliar.EntityLoader;
-import Auxiliar.Imagem;
 import Auxiliar.LevelsFactory;
 import Auxiliar.SaveGameData;
-import Auxiliar.UIComponents;
-import Auxiliar.WinScreen;
+
 import java.awt.Graphics;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -31,13 +30,13 @@ import java.util.TimerTask;
 
 public class Tela extends javax.swing.JFrame implements MouseListener, KeyListener {
   private Hero hero;
-  private Graphics g2;
+  private Graphics graphics;
   private GameControl gameControl;
   private static SaveGameData saveGameData;
 
   public Tela() {
     initUiComponents();
-    Desenho.setTela(this);
+    Drawer.setCanvas(this);
     this.addMouseListener(this);
     this.addKeyListener(this);
 
@@ -71,32 +70,17 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
 
 
   public Graphics getGraphicsBuffer() {
-    return g2;
+    return graphics;
   }
 
   public void paint(Graphics gOld) {
-    Graphics g = this.getBufferStrategy().getDrawGraphics();
-    g2 = g.create(getInsets().left, getInsets().top, getWidth() - getInsets().right, getHeight() - getInsets().top);
-    UIComponents UI = UIComponents.getInstance(g2);
-
-    // Desenha o fundo (grama) independentemente do estado do jogo
-    for (int i = 0; i < Consts.RES_X; i++) {
-      for (int j = 0; j < Consts.RES_Y; j++) {
-        int mapaLinha = GameControl.getCameraPosition().getLinha() + i;
-        int mapaColuna = GameControl.getCameraPosition().getColuna() + j;
-
-        if (mapaLinha < Consts.MUNDO_ALTURA && mapaColuna < Consts.MUNDO_LARGURA) {
-          Imagem grassImage = new Imagem("grass.png", g2);
-          grassImage.drawImage(j * Consts.CELL_SIDE, i * Consts.CELL_SIDE,
-              Consts.CELL_SIDE, Consts.CELL_SIDE);
-        }
-      }
-    }
+    this.graphics = this.getBufferStrategy().getDrawGraphics().create(getInsets().left, getInsets().top, getWidth() - getInsets().right, getHeight() - getInsets().top);
+    Drawer.drawGameTerrain();
 
     if (!this.hero.isAlive()) {
-      DeathScreen.draw(g2);
+      DeathScreen.draw(graphics);
     } else if (GameControl.isGameWon) {
-      WinScreen.draw(g2);
+      WinScreen.draw(graphics);
     } else {
       // Desenho normal do jogo quando o jogador está vivo
       Level currentLevel = GameControl.getCurrentLevel();
@@ -107,18 +91,17 @@ public class Tela extends javax.swing.JFrame implements MouseListener, KeyListen
       }
 
       // Desenha a UI
-      UI.drawHealthBar();
-      UI.drawLevelIndicator();
-      UI.drawMissionText();
+      Drawer.drawHealthBar();
+      Drawer.drawLevelIndicator();
+      Drawer.drawMissionText();
     }
 
     // Desenha mensagens do sistema, se houver
     if (saveGameData.showSystemMessage) {
-      saveGameData.drawSystemMessage(g2);
+      saveGameData.drawSystemMessage(graphics);
     }
 
-    g.dispose();
-    g2.dispose();
+    graphics.dispose();
     if (!getBufferStrategy().contentsLost()) {
       getBufferStrategy().show();
     }

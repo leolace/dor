@@ -12,7 +12,7 @@ public class VerticalBouncer extends Entity {
   }
 
   @Override
-  protected void movement() {
+  public void movement() {
     this.movementCounter++;
 
     if (bUp)

@@ -1,10 +1,12 @@
-package Auxiliar;
+package Screens;
 
 import java.awt.Graphics;
 import java.awt.FontMetrics;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.Serializable;
+
+import Auxiliar.Consts;
 
 /**
  * Classe responsável por controlar e desenhar a tela de vitória do jogo

@@ -6,6 +6,7 @@ import Modelo.FireThrower;
 import Modelo.Chaser;
 import Modelo.HorizontalBouncer;
 import Modelo.VerticalBouncer;
+import Modelo.Wall;
 import Modelo.ZigueZague;
 
 public class LevelsFactory {
@@ -49,6 +50,8 @@ public class LevelsFactory {
     EntityGenerator<FireThrower> caveiraGenerator = new EntityGenerator<FireThrower>(FireThrower.class, 7, 12);
     fase.addAllPersonagens(caveiraGenerator.getEntities());
 
+    this.addWallsAroundMap(fase);
+
     return fase;
   }
 
@@ -70,6 +73,8 @@ public class LevelsFactory {
         5);
     fase.addAllPersonagens(chaserGenerator.getEntities());
 
+    this.addWallsAroundMap(fase);
+
     return fase;
   }
 
@@ -86,6 +91,8 @@ public class LevelsFactory {
 
     EntityGenerator<FireThrower> caveiraGenerator = new EntityGenerator<FireThrower>(FireThrower.class, 10, 12);
     fase.addAllPersonagens(caveiraGenerator.getEntities());
+
+    this.addWallsAroundMap(fase);
 
     return fase;
   }
@@ -112,6 +119,8 @@ public class LevelsFactory {
         5);
     fase.addAllPersonagens(chaserGenerator.getEntities());
 
+    this.addWallsAroundMap(fase);
+
     return fase;
   }
 
@@ -137,6 +146,37 @@ public class LevelsFactory {
         5);
     fase.addAllPersonagens(chaserGenerator.getEntities());
 
+    this.addWallsAroundMap(fase);
+
     return fase;
+  }
+
+  // Adicione este método na classe LevelsFactory
+  private void addWallsAroundMap(Level level) {
+    // Adiciona muros nas bordas horizontais (superior e inferior)
+    for (int col = 0; col < Auxiliar.Consts.MUNDO_LARGURA; col++) {
+      // Borda superior
+      Wall topWall = new Wall();
+      topWall.setPosicao(0, col);
+      level.addPersonagem(topWall);
+
+      // Borda inferior
+      Wall bottomWall = new Wall();
+      bottomWall.setPosicao(Auxiliar.Consts.MUNDO_ALTURA - 1, col);
+      level.addPersonagem(bottomWall);
+    }
+
+    // Adiciona muros nas bordas verticais (esquerda e direita)
+    for (int row = 1; row < Auxiliar.Consts.MUNDO_ALTURA - 1; row++) {
+      // Borda esquerda
+      Wall leftWall = new Wall();
+      leftWall.setPosicao(row, 0);
+      level.addPersonagem(leftWall);
+
+      // Borda direita
+      Wall rightWall = new Wall();
+      rightWall.setPosicao(row, Auxiliar.Consts.MUNDO_LARGURA - 1);
+      level.addPersonagem(rightWall);
+    }
   }
 }

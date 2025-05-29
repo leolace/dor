@@ -16,7 +16,7 @@ public class FireThrower extends Entity {
   }
 
   @Override
-  protected void movement() {
+  public void movement() {
     this.iContaIntervalos++;
     if (this.iContaIntervalos == Consts.TIMER) {
       this.iContaIntervalos = 0;

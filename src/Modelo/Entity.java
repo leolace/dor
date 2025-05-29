@@ -1,10 +1,11 @@
 package Modelo;
 
 import Auxiliar.Consts;
-import Auxiliar.Desenho;
+import Auxiliar.Drawer;
 import Auxiliar.Imagem;
 import Auxiliar.Posicao;
 import Controler.GameControl;
+import Interfaces.Moveable;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-public abstract class Entity implements Serializable {
+public abstract class Entity implements Serializable, Moveable {
   protected ImageIcon iImage;
   protected Posicao position;
   private Posicao initialPosition = null; /* Posição inicial do personagem */
@@ -29,8 +30,6 @@ public abstract class Entity implements Serializable {
   public boolean isDangerous() {
     return isDangerous;
   }
-
-  protected abstract void movement();
 
   public void setMovementDelay(int movementDelay) {
     this.movementDelay = movementDelay;
@@ -104,7 +103,7 @@ public abstract class Entity implements Serializable {
   }
 
   public void autoDesenho() {
-    Desenho.desenhar(this.iImage, this.position.getColuna(), this.position.getLinha());
+    Drawer.drawImage(this.iImage, this.position.getColuna(), this.position.getLinha());
 
     contadorMovimento++;
     if (contadorMovimento >= movementDelay) {

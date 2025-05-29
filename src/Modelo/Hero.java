@@ -60,7 +60,7 @@ public class Hero extends Entity {
   }
 
   @Override
-  protected void movement() {
+  public void movement() {
     // Atualiza os frames de invencibilidade
     if (this.invincible && this.currentInvincibilityFrames > 0) {
       this.currentInvincibilityFrames--;

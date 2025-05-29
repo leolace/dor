@@ -10,8 +10,7 @@ public class Tree extends Entity {
     }
 
     @Override
-    protected void movement() {
-        // Árvores não se movem
-        return;
+    public void movement() {
+
     }
 }

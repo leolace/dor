@@ -33,8 +33,7 @@ public class Chaser extends Entity {
   }
 
   @Override
-  protected void movement() {
-
+  public void movement() {
     // Verifica se está na mesma linha ou coluna que o herói
     Hero hero = GameControl.getHero();
 

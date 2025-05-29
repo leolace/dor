@@ -28,7 +28,7 @@ public class Fogo extends Entity {
   }
 
   @Override
-  protected void movement() {
+  public void movement() {
     boolean movementSuccess = false;
 
     // Move na direção especificada

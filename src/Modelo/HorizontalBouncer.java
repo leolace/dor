@@ -12,7 +12,7 @@ public class HorizontalBouncer extends Entity {
   }
 
   @Override
-  protected void movement() {
+  public void movement() {
     this.movementCounter++;
     if (this.isMovingRight) {
       this.moveRight();
