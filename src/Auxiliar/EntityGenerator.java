@@ -43,7 +43,6 @@ public class EntityGenerator<T extends Entity> {
         T entity = createEntity(linha, coluna);
         entities.add(entity);
 
-        // Adicionar temporariamente à lista de entidades para verificação de colisões
         entitiesCreated++;
       }
     }
@@ -60,13 +59,6 @@ public class EntityGenerator<T extends Entity> {
     }
   }
 
-  /**
-   * Verifica se uma posição já está ocupada por alguma entidade
-   * 
-   * @param linha  linha a ser verificada
-   * @param coluna coluna a ser verificada
-   * @return true se a posição estiver ocupada, false caso contrário
-   */
   private boolean isPositionOccupied(int linha, int coluna) {
     for (T entity : entities) {
       if (entity.isSamePosition(linha, coluna)) {
@@ -76,13 +68,6 @@ public class EntityGenerator<T extends Entity> {
     return false;
   }
 
-  /**
-   * Verifica se existe uma entidade próxima dentro do espaçamento mínimo
-   * 
-   * @param linha  linha a ser verificada
-   * @param coluna coluna a ser verificada
-   * @return true se existir uma entidade próxima, false caso contrário
-   */
   private boolean hasNearbyEntity(int linha, int coluna) {
     for (T entity : entities) {
       if (entity instanceof T) {

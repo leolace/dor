@@ -8,14 +8,11 @@ import java.io.Serializable;
 
 import Auxiliar.Consts;
 
-/**
- * Classe responsável por controlar e desenhar a tela de morte do jogo
- */
 public class DeathScreen implements Serializable {
   private static final String DEATH_MESSAGE = "Você morreu! Pressione a tecla [espaço] para continuar...";
 
   public static void draw(Graphics g) {
-    // Fundo escuro semi-transparente apenas para a área do jogo
+    // Fundo escuro semi-transparente
     g.setColor(new Color(0, 0, 0, 200));
     g.fillRect(0, 0, Consts.RES_X * Consts.CELL_SIDE, Consts.RES_Y * Consts.CELL_SIDE);
 

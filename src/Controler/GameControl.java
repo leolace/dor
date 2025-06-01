@@ -18,7 +18,6 @@ public class GameControl implements Serializable {
   private static ArrayList<Level> levels = new ArrayList<Level>();
   public static boolean isGameWon = false;
 
-  // Versão da serialização para compatibilidade
   private static final long serialVersionUID = 1L;
 
   public GameControl(Hero heroo) {
@@ -146,10 +145,6 @@ public class GameControl implements Serializable {
     }
   }
 
-  /*
-   * Retorna true se a posicao p é válida para Hero com relacao a todos os
-   * personagens no array
-   */
   public boolean isValidPosition(ArrayList<Entity> personagens, Entity personagem) {
     for (int i = 0; i < personagens.size(); i++) {
       Entity personagemAtual = personagens.get(i);
@@ -159,30 +154,17 @@ public class GameControl implements Serializable {
     return true;
   }
 
-  /**
-   * Reinicia o nível atual
-   * Reposiciona o herói e restaura sua vida
-   */
   public void restartLevel() {
-    // Ressuscita o herói explicitamente
+    // Ressuscita o herói
     hero.resurrect();
 
     // Reposiciona o herói em uma posição inicial segura
-    hero.setPosicao(10, 10);
-
-    // Atualiza a câmera para a nova posição do herói
+    hero.setRandomPosition();
     updateCameraToHero();
 
-    GameControl.getCurrentLevel().restartHealthPotions();
     GameControl.getCurrentLevel().restartLevel();
-    GameControl.getCurrentLevel().restartKey();
   }
 
-  /**
-   * Retorna o objeto herói
-   * 
-   * @return O herói do jogo
-   */
   public static Hero getHero() {
     return hero;
   }

@@ -151,9 +151,7 @@ public class LevelsFactory {
     return fase;
   }
 
-  // Adicione este método na classe LevelsFactory
   private void addWallsAroundMap(Level level) {
-    // Adiciona muros nas bordas horizontais (superior e inferior)
     for (int col = 0; col < Auxiliar.Consts.MUNDO_LARGURA; col++) {
       // Borda superior
       Wall topWall = new Wall();
@@ -166,7 +164,6 @@ public class LevelsFactory {
       level.addPersonagem(bottomWall);
     }
 
-    // Adiciona muros nas bordas verticais (esquerda e direita)
     for (int row = 1; row < Auxiliar.Consts.MUNDO_ALTURA - 1; row++) {
       // Borda esquerda
       Wall leftWall = new Wall();
