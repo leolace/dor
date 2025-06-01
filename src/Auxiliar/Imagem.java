@@ -15,7 +15,7 @@ public class Imagem {
 
     try {
       this.image = new ImageIcon(
-          new java.io.File("../").getCanonicalPath() + Consts.PATH + this.filename);
+          new java.io.File(".").getCanonicalPath() + Consts.PATH + this.filename);
     } catch (Exception e) {
       System.out.println("Erro ao carregar imagem: " + filename);
     }
